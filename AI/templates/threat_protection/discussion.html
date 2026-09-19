@@ -1,0 +1,250 @@
+{% extends 'base.html' %}
+
+{% block title %}AI Discussions — SCAMSHIELD AI{% endblock %}
+
+{% block content %}
+<div class="my-3 d-flex align-items-center gap-2">
+    <a href="{{ url_for('threat_protection') }}" class="btn btn-sm btn-outline-secondary text-light">
+        <i class="fa-solid fa-arrow-left me-1"></i> Threat Protection
+    </a>
+    <span class="text-muted small">/ AI Discussions</span>
+</div>
+
+<div class="my-3">
+    <h1 class="text-white fw-bold mb-1">
+        <i class="fa-solid fa-comments me-2 text-info"></i>AI Discussions & Safety Guidance
+    </h1>
+    <p class="text-secondary">
+        Ask any question regarding suspicious phone calls, OTP safety, UPI QR codes, bank phishing, online scams, or digital defense. Our AI Safety Agent provides practical, reassuring answers.
+    </p>
+</div>
+
+<div class="row g-4">
+    <!-- Main Chat Window -->
+    <div class="col-lg-8">
+        <div class="glass-card mb-4 d-flex flex-column" style="min-height:540px;">
+            <!-- Header -->
+            <div class="d-flex align-items-center justify-content-between pb-3 mb-3 border-bottom border-secondary border-opacity-25">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="stat-icon text-info mb-0" style="width:42px;height:42px;font-size:1.2rem;">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-white fw-bold mb-0">ScamShield AI Safety Advisor</h6>
+                        <span class="text-success small"><i class="fa-solid fa-circle me-1" style="font-size:0.55rem;"></i> Online & Ready</span>
+                    </div>
+                </div>
+                <div class="badge bg-dark border border-secondary text-muted small">
+                    Cyber Defense Mode
+                </div>
+            </div>
+
+            <!-- Messages Log -->
+            <div id="chatMessages" class="flex-grow-1 p-3 rounded mb-3" style="background:rgba(10,14,24,0.6);border:1px solid rgba(255,255,255,0.06);max-height:420px;overflow-y:auto;">
+                <!-- Initial Welcome Message from AI -->
+                <div class="d-flex gap-3 mb-3 align-items-start">
+                    <div class="stat-icon text-info flex-shrink-0" style="width:36px;height:36px;font-size:1rem;background:rgba(56,189,248,0.15);">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div class="p-3 rounded-3 text-light small" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);max-width:85%;line-height:1.7;">
+                        <strong class="text-info d-block mb-1">ScamShield Safety Agent</strong>
+                        Hello! I am here to help you evaluate suspicious communications, verify whether an offer or call is a scam, and guide you on OTP, UPI, and banking protection. What is happening or what would you like to ask?
+                    </div>
+                </div>
+            </div>
+
+            <!-- Suggested Quick Questions -->
+            <div class="mb-3">
+                <p class="text-muted small mb-2">Common questions to ask:</p>
+                <div class="d-flex flex-wrap gap-2">
+                    <button type="button" class="btn btn-sm btn-outline-info prompt-chip"
+                            data-query="Someone sent a QR code on WhatsApp saying scan to receive payment on PhonePe. Is this safe?">
+                        📱 QR Code to Receive Money?
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-warning prompt-chip"
+                            data-query="A caller claims to be from my bank and says my debit card will be blocked unless I share the OTP. What should I do?">
+                        🏦 Caller Asking for OTP?
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-danger prompt-chip"
+                            data-query="I got an SMS that my electricity bill is overdue and power will be cut tonight. How to verify?">
+                        ⚡ Electricity Cut Warning SMS?
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-success prompt-chip"
+                            data-query="I was offered a job earning ₹3,000 daily by liking videos, but they asked for a ₹200 fee. Is it real?">
+                        💼 Telegram Video Liking Job?
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat Input Form -->
+            <form id="chatForm" class="d-flex gap-2 align-items-center">
+                <input type="text" id="chatInput" class="form-control bg-dark text-white border-secondary"
+                       placeholder="Type your scam safety question here..." required autocomplete="off">
+                <button type="submit" id="sendBtn" class="btn-custom btn-primary-glow flex-shrink-0">
+                    <i class="fa-solid fa-paper-plane me-1"></i> Ask AI
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sidebar Guidelines & Helpline -->
+    <div class="col-lg-4">
+        <div class="glass-card mb-4 border-glow">
+            <h6 class="text-white fw-bold mb-3">
+                <i class="fa-solid fa-phone-volume me-2 text-danger"></i>Emergency Cyber Helplines
+            </h6>
+            <div class="d-flex flex-column gap-2">
+                <div class="p-2 rounded bg-dark border border-secondary border-opacity-25">
+                    <span class="text-muted small d-block">National Cybercrime Helpline</span>
+                    <strong class="text-white fs-5"><i class="fa-solid fa-phone text-success me-2"></i>1930</strong>
+                    <span class="text-muted small d-block">Available 24x7 across India</span>
+                </div>
+                <div class="p-2 rounded bg-dark border border-secondary border-opacity-25">
+                    <span class="text-muted small d-block">Official Cybercrime Portal</span>
+                    <a href="https://cybercrime.gov.in" target="_blank" rel="noopener" class="text-primary fw-semibold small">
+                        <i class="fa-solid fa-globe me-1"></i> cybercrime.gov.in
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card mb-4">
+            <h6 class="text-white fw-bold mb-3">
+                <i class="fa-solid fa-shield-cat me-2 text-warning"></i>Safety Rules of Thumb
+            </h6>
+            <ul class="list-unstyled text-muted small mb-0" style="line-height:1.8;">
+                <li class="mb-2"><i class="fa-solid fa-circle-xmark text-danger me-2"></i>Never enter UPI PIN to receive money.</li>
+                <li class="mb-2"><i class="fa-solid fa-circle-xmark text-danger me-2"></i>No bank official ever needs your OTP.</li>
+                <li class="mb-2"><i class="fa-solid fa-circle-xmark text-danger me-2"></i>Legitimate jobs never charge registration fees.</li>
+                <li class="mb-0"><i class="fa-solid fa-circle-xmark text-danger me-2"></i>Never download APK files or screen sharing apps (AnyDesk/TeamViewer) on caller instruction.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const chatForm = document.getElementById('chatForm');
+    const chatInput = document.getElementById('chatInput');
+    const chatMessages = document.getElementById('chatMessages');
+    const sendBtn = document.getElementById('sendBtn');
+
+    // Prompt chips
+    document.querySelectorAll('.prompt-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+            chatInput.value = chip.getAttribute('data-query');
+            chatForm.dispatchEvent(new Event('submit'));
+        });
+    });
+
+    chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const query = chatInput.value.trim();
+        if (!query) return;
+
+        // Append user bubble
+        appendMessage('user', query);
+        chatInput.value = '';
+        chatInput.disabled = true;
+        sendBtn.disabled = true;
+
+        // Append typing indicator
+        const typingId = appendTyping();
+
+        try {
+            const response = await fetch('/threat-protection/api-discussion', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question: query, language: 'en' })
+            });
+            const data = await response.json();
+            removeTyping(typingId);
+            appendMessage('ai', data.answer || 'Thank you for your question. Always verify independently and never share your OTP.');
+        } catch (err) {
+            removeTyping(typingId);
+            appendMessage('ai', '### 🛡️ Safety Advisory:\nNever share your OTP, bank details, or UPI PIN with any caller or message. Report suspected fraud immediately on 1930.');
+        } finally {
+            chatInput.disabled = false;
+            sendBtn.disabled = false;
+            chatInput.focus();
+        }
+    });
+
+    function appendMessage(sender, text) {
+        const row = document.createElement('div');
+        row.className = 'd-flex gap-3 mb-3 align-items-start' + (sender === 'user' ? ' justify-content-end' : '');
+
+        if (sender === 'user') {
+            row.innerHTML = `
+                <div class="p-3 rounded-3 text-white small" style="background:var(--accent-indigo);max-width:80%;line-height:1.6;">
+                    ${escapeHtml(text)}
+                </div>
+                <div class="stat-icon text-white flex-shrink-0" style="width:36px;height:36px;font-size:1rem;background:rgba(255,255,255,0.15);">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+            `;
+        } else {
+            // Render markdown-like bullets and bold
+            const formatted = formatMarkdown(text);
+            row.innerHTML = `
+                <div class="stat-icon text-info flex-shrink-0" style="width:36px;height:36px;font-size:1rem;background:rgba(56,189,248,0.15);">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <div class="p-3 rounded-3 text-light small" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);max-width:85%;line-height:1.7;">
+                    <strong class="text-info d-block mb-1">ScamShield Safety Agent</strong>
+                    <div>${formatted}</div>
+                </div>
+            `;
+        }
+
+        chatMessages.appendChild(row);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function appendTyping() {
+        const id = 'typing_' + Date.now();
+        const row = document.createElement('div');
+        row.id = id;
+        row.className = 'd-flex gap-3 mb-3 align-items-start';
+        row.innerHTML = `
+            <div class="stat-icon text-info flex-shrink-0" style="width:36px;height:36px;font-size:1rem;background:rgba(56,189,248,0.15);">
+                <i class="fa-solid fa-robot"></i>
+            </div>
+            <div class="p-3 rounded-3 text-muted small" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);">
+                <span class="spinner-grow spinner-grow-sm text-info me-1" role="status"></span> Thinking & analyzing scam patterns...
+            </div>
+        `;
+        chatMessages.appendChild(row);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        return id;
+    }
+
+    function removeTyping(id) {
+        const el = document.getElementById(id);
+        if (el) el.remove();
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function formatMarkdown(text) {
+        let t = escapeHtml(text);
+        // Headings
+        t = t.replace(/^### (.*$)/gim, '<h6 class="text-white fw-bold mt-2 mb-2">$1</h6>');
+        t = t.replace(/^## (.*$)/gim, '<h6 class="text-white fw-bold mt-2 mb-2">$1</h6>');
+        // Bold
+        t = t.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>');
+        // Bullets
+        t = t.replace(/^• (.*$)/gim, '<div class="d-flex gap-2 my-1"><span class="text-info">•</span><span>$1</span></div>');
+        // Line breaks
+        t = t.replace(/\n\n/g, '<br/>');
+        return t;
+    }
+});
+</script>
+{% endblock %}

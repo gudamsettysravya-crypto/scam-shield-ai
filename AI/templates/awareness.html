@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+
+{% block title %}Awareness Center — SCAMSHIELD AI{% endblock %}
+
+{% block content %}
+<div class="my-4 text-center">
+    <h1 class="text-white fw-bold mb-2">
+        <i class="fa-solid fa-graduation-cap me-2 text-warning"></i>Scam Awareness Center
+    </h1>
+    <p class="text-muted" style="max-width:640px;margin:0 auto;">
+        Educate yourself about common scam tactics used in India. Click any card to learn more. Knowledge is your first line of defence.
+    </p>
+</div>
+
+<!-- Scam Type Cards — all clickable -->
+<div class="row g-4 my-3">
+
+    <div class="col-md-6 col-lg-4">
+        <a href="{{ url_for('awareness_detail', slug='prize-lottery') }}" class="text-decoration-none d-block h-100">
+            <div class="glass-card h-100 awareness-card-link p-0 overflow-hidden border-glow">
+                <img src="{{ url_for('static', filename='images/scam_prize_lottery.jpg') }}" alt="Prize / Lottery Scams"
+                     class="w-100" style="height:170px;object-fit:cover;border-bottom:1px solid rgba(255,255,255,0.08);">
+                <div class="p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <h5 class="text-white fw-bold mb-0">🎁 Prize / Lottery Scams</h5>
+                        <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-25 small">High Risk</span>
+                    </div>
+                    <p class="text-muted small mb-3"><strong>What is it:</strong> Fraudsters claim you won a huge prize, car, or lottery, demanding an advance "processing fee" or tax upfront.</p>
+                    <p class="text-secondary small fw-bold mb-1"><i class="fa-solid fa-triangle-exclamation text-danger me-1"></i> Warning Signs to Watch For:</p>
+                    <ul class="list-unstyled text-muted small mb-3">
+                        <li><i class="fa-solid fa-circle-dot text-danger me-2"></i>Asks for upfront registration or release fee</li>
+                        <li><i class="fa-solid fa-circle-dot text-danger me-2"></i>Urgent deadline: "Claim within 24 hours"</li>
+                        <li><i class="fa-solid fa-circle-dot text-danger me-2"></i>Links to suspicious domains (.xyz, .top)</li>
+                    </ul>
+                    <span class="learn-more-cta text-danger small fw-semibold">Read Complete Guide <i class="fa-solid fa-arrow-right ms-1"></i></span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+        <a href="{{ url_for('awareness_detail', slug='banking-phishing') }}" class="text-decoration-none d-block h-100">
+            <div class="glass-card h-100 awareness-card-link p-0 overflow-hidden">
+                <img src="{{ url_for('static', filename='images/scam_banking_phishing.jpg') }}" alt="Banking / Phishing Scams"
+                     class="w-100" style="height:170px;object-fit:cover;border-bottom:1px solid rgba(255,255,255,0.08);">
+                <div class="p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <h5 class="text-white fw-bold mb-0">🏦 Banking / Phishing Scams</h5>
+                        <span class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-25 small">Critical</span>
+                    </div>
+                    <p class="text-muted small mb-3"><strong>What is it:</strong> Impersonating banks, NPCI, or RBI to steal OTPs, passwords, or net-banking credentials via SMS and calls.</p>
+                    <p class="text-secondary small fw-bold mb-1"><i class="fa-solid fa-triangle-exclamation text-warning me-1"></i> Warning Signs to Watch For:</p>
+                    <ul class="list-unstyled text-muted small mb-3">
+                        <li><i class="fa-solid fa-circle-dot text-warning me-2"></i>Threatens immediate account suspension</li>
+                        <li><i class="fa-solid fa-circle-dot text-warning me-2"></i>Link contains raw IP or fake portal</li>
+                        <li><i class="fa-solid fa-circle-dot text-warning me-2"></i>Demands OTP or PIN verbally</li>
+                    </ul>
+                    <span class="learn-more-cta text-warning small fw-semibold">Read Complete Guide <i class="fa-solid fa-arrow-right ms-1"></i></span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+        <a href="{{ url_for('awareness_detail', slug='fake-job') }}" class="text-decoration-none d-block h-100">
+            <div class="glass-card h-100 awareness-card-link p-0 overflow-hidden">
+                <img src="{{ url_for('static', filename='images/scam_fake_job.jpg') }}" alt="Fake Job Scams"
+                     class="w-100" style="height:170px;object-fit:cover;border-bottom:1px solid rgba(255,255,255,0.08);">
+                <div class="p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <h5 class="text-white fw-bold mb-0">💼 Fake Job Scams</h5>
+                        <span class="badge bg-info bg-opacity-25 text-info border border-info border-opacity-25 small">Prevalent</span>
+                    </div>
+                    <p class="text-muted small mb-3"><strong>What is it:</strong> Part-time work-from-home offers promising unrealistic earnings for liking videos, always demanding fees first.</p>
+                    <p class="text-secondary small fw-bold mb-1"><i class="fa-solid fa-triangle-exclamation text-info me-1"></i> Warning Signs to Watch For:</p>
+                    <ul class="list-unstyled text-muted small mb-3">
+                        <li><i class="fa-solid fa-circle-dot text-info me-2"></i>Unrealistic income (₹3000/day for simple tasks)</li>
+                        <li><i class="fa-solid fa-circle-dot text-info me-2"></i>Requires upfront registration fee or deposit</li>
+                        <li><i class="fa-solid fa-circle-dot text-info me-2"></i>Recruitment strictly via Telegram/WhatsApp</li>
+                    </ul>
+                    <span class="learn-more-cta text-info small fw-semibold">Read Complete Guide <i class="fa-solid fa-arrow-right ms-1"></i></span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+        <a href="{{ url_for('awareness_detail', slug='upi-payment') }}" class="text-decoration-none d-block h-100">
+            <div class="glass-card h-100 awareness-card-link p-0 overflow-hidden">
+                <img src="{{ url_for('static', filename='images/scam_upi_payment.jpg') }}" alt="UPI / Payment Scams"
+                     class="w-100" style="height:170px;object-fit:cover;border-bottom:1px solid rgba(255,255,255,0.08);">
+                <div class="p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <h5 class="text-white fw-bold mb-0">💸 UPI / Payment Scams</h5>
+                        <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 small">Financial</span>
+                    </div>
+                    <p class="text-muted small mb-3"><strong>What is it:</strong> Scammers send QR codes claiming "scan to receive money", but scanning and entering PIN debits your account.</p>
+                    <p class="text-secondary small fw-bold mb-1"><i class="fa-solid fa-triangle-exclamation text-success me-1"></i> Warning Signs to Watch For:</p>
+                    <ul class="list-unstyled text-muted small mb-3">
+                        <li><i class="fa-solid fa-circle-dot text-success me-2"></i>Collect request disguised as payment receipt</li>
+                        <li><i class="fa-solid fa-circle-dot text-success me-2"></i>Stranger sends QR code claiming to send funds</li>
+                        <li><i class="fa-solid fa-circle-dot text-success me-2"></i>Fake screenshot of payment transfer</li>
+                    </ul>
+                    <span class="learn-more-cta text-success small fw-semibold">Read Complete Guide <i class="fa-solid fa-arrow-right ms-1"></i></span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+        <a href="{{ url_for('awareness_detail', slug='romance') }}" class="text-decoration-none d-block h-100">
+            <div class="glass-card h-100 awareness-card-link p-0 overflow-hidden">
+                <img src="{{ url_for('static', filename='images/scam_romance.jpg') }}" alt="Romance Scams"
+                     class="w-100" style="height:170px;object-fit:cover;border-bottom:1px solid rgba(255,255,255,0.08);">
+                <div class="p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <h5 class="text-white fw-bold mb-0">💕 Romance Scams</h5>
+                        <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-25 small">Social</span>
+                    </div>
+                    <p class="text-muted small mb-3"><strong>What is it:</strong> Fake online relationships on social media or matrimony apps that build trust before demanding emergency funds.</p>
+                    <p class="text-secondary small fw-bold mb-1"><i class="fa-solid fa-triangle-exclamation text-danger me-1"></i> Warning Signs to Watch For:</p>
+                    <ul class="list-unstyled text-muted small mb-3">
+                        <li><i class="fa-solid fa-circle-dot text-danger me-2"></i>Love-bombing and rapid emotional bonding</li>
+                        <li><i class="fa-solid fa-circle-dot text-danger me-2"></i>Avoids video calls or in-person meetings</li>
+                        <li><i class="fa-solid fa-circle-dot text-danger me-2"></i>Financial crisis: medical, gift stuck at customs</li>
+                    </ul>
+                    <span class="learn-more-cta text-danger small fw-semibold">Read Complete Guide <i class="fa-solid fa-arrow-right ms-1"></i></span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+        <a href="{{ url_for('awareness_detail', slug='malicious-url') }}" class="text-decoration-none d-block h-100">
+            <div class="glass-card h-100 awareness-card-link p-0 overflow-hidden">
+                <img src="{{ url_for('static', filename='images/scam_malicious_url.jpg') }}" alt="Malicious URL Scams"
+                     class="w-100" style="height:170px;object-fit:cover;border-bottom:1px solid rgba(255,255,255,0.08);">
+                <div class="p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <h5 class="text-white fw-bold mb-0">🔗 Malicious URL Scams</h5>
+                        <span class="badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25 small">Cyber</span>
+                    </div>
+                    <p class="text-muted small mb-3"><strong>What is it:</strong> Links disguised as legitimate brands using look-alike domains, URL shorteners, or unencrypted HTTP channels.</p>
+                    <p class="text-secondary small fw-bold mb-1"><i class="fa-solid fa-triangle-exclamation text-primary me-1"></i> Warning Signs to Watch For:</p>
+                    <ul class="list-unstyled text-muted small mb-3">
+                        <li><i class="fa-solid fa-circle-dot text-primary me-2"></i>Slightly misspelled domain names</li>
+                        <li><i class="fa-solid fa-circle-dot text-primary me-2"></i>Suspicious TLDs (.xyz, .tk, .top, .online)</li>
+                        <li><i class="fa-solid fa-circle-dot text-primary me-2"></i>Unencrypted HTTP links without SSL</li>
+                    </ul>
+                    <span class="learn-more-cta text-primary small fw-semibold">Read Complete Guide <i class="fa-solid fa-arrow-right ms-1"></i></span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+</div>
+
+<!-- Golden Rules Section -->
+<div class="glass-card my-4 border-glow">
+    <h4 class="text-white fw-bold text-center mb-4">
+        <i class="fa-solid fa-shield-halved me-2 text-primary"></i>Golden Rules to Stay Safe
+    </h4>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="d-flex align-items-start gap-3">
+                <div class="stat-icon text-success flex-shrink-0" style="width:40px;height:40px;font-size:1rem;">
+                    <i class="fa-solid fa-1"></i>
+                </div>
+                <div>
+                    <h6 class="text-white fw-bold mb-1">Never Share OTPs</h6>
+                    <p class="text-muted small mb-0">No bank, government, or NPCI official will ever ask you for your OTP over the phone or message.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex align-items-start gap-3">
+                <div class="stat-icon text-warning flex-shrink-0" style="width:40px;height:40px;font-size:1rem;">
+                    <i class="fa-solid fa-2"></i>
+                </div>
+                <div>
+                    <h6 class="text-white fw-bold mb-1">Never Pay to Get Paid</h6>
+                    <p class="text-muted small mb-0">Legitimate prizes, job offers, or lottery wins never require an upfront fee to process or release the reward.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex align-items-start gap-3">
+                <div class="stat-icon text-info flex-shrink-0" style="width:40px;height:40px;font-size:1rem;">
+                    <i class="fa-solid fa-3"></i>
+                </div>
+                <div>
+                    <h6 class="text-white fw-bold mb-1">Verify Before You Click</h6>
+                    <p class="text-muted small mb-0">Always check the full URL domain before clicking. Use SCAMSHIELD AI to analyze suspicious links.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex align-items-start gap-3">
+                <div class="stat-icon text-danger flex-shrink-0" style="width:40px;height:40px;font-size:1rem;">
+                    <i class="fa-solid fa-4"></i>
+                </div>
+                <div>
+                    <h6 class="text-white fw-bold mb-1">Report Cybercrime</h6>
+                    <p class="text-muted small mb-0">File complaints at <strong class="text-white">cybercrime.gov.in</strong> or call <strong class="text-white">1930</strong> (National Cyber Helpline).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA -->
+<div class="text-center my-4">
+    <h5 class="text-white fw-bold mb-3">Got a suspicious message right now?</h5>
+    <a href="{{ url_for('analyze') if session.get('user_id') else url_for('register') }}" class="btn-custom btn-primary-glow btn-lg">
+        <i class="fa-solid fa-magnifying-glass me-2"></i>Analyze It for Free
+    </a>
+</div>
+{% endblock %}

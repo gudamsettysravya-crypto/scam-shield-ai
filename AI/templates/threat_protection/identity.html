@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+
+{% block title %}Personal Identity Protection — SCAMSHIELD AI{% endblock %}
+
+{% block content %}
+<div class="my-3 d-flex align-items-center gap-2">
+    <a href="{{ url_for('threat_protection') }}" class="btn btn-sm btn-outline-secondary text-light">
+        <i class="fa-solid fa-arrow-left me-1"></i> Threat Protection
+    </a>
+    <span class="text-muted small">/ Personal Identity Suggestions</span>
+</div>
+
+<div class="my-3 text-center">
+    <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2"
+         style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);color:var(--risk-low-text);">
+        <i class="fa-solid fa-lock"></i>
+        <span class="small fw-semibold">Personal Defense Blueprint</span>
+    </div>
+    <h1 class="text-white fw-bold mb-2">Personal Identity & Credential Protection</h1>
+    <p class="text-secondary mx-auto" style="max-width:720px;">
+        Comprehensive security guidelines to safeguard your most sensitive digital assets: OTPs, passwords, bank accounts, UPI PINs, Aadhaar/PAN, and private identity information.
+    </p>
+</div>
+
+<!-- 6 Pillar Protection Grid -->
+<div class="row g-4 my-3">
+
+    <!-- Pillar 1: OTPs -->
+    <div class="col-md-6 col-lg-4">
+        <div class="glass-card h-100 p-4" style="border-top:3px solid #ef4444;">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="stat-icon text-danger mb-0" style="width:40px;height:40px;font-size:1.1rem;">
+                    <i class="fa-solid fa-key"></i>
+                </div>
+                <h5 class="text-white fw-bold mb-0">1. OTP Protection</h5>
+            </div>
+            <p class="text-secondary small mb-3">One-Time Passwords are your final transaction authorization layer. Once shared, the financial transfer is irreversible.</p>
+            <ul class="list-unstyled text-secondary small mb-0" style="line-height:1.7;">
+                <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i><strong>Read the purpose:</strong> Always check whether the SMS says "transferring Rs. X" or "logging into account".</li>
+                <li class="mb-2"><i class="fa-solid fa-xmark text-danger me-2"></i><strong>Zero voice disclosure:</strong> Never speak OTP digits to anyone claiming to be a bank manager, courier, or telecom executive.</li>
+                <li class="mb-0"><i class="fa-solid fa-triangle-exclamation text-warning me-2"></i><strong>Unsolicited OTPs:</strong> If you receive an OTP without requesting it, someone may have your password; change it immediately.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Pillar 2: Passwords -->
+    <div class="col-md-6 col-lg-4">
+        <div class="glass-card h-100 p-4" style="border-top:3px solid #38bdf8;">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="stat-icon text-primary mb-0" style="width:40px;height:40px;font-size:1.1rem;">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h5 class="text-white fw-bold mb-0">2. Passwords & Logins</h5>
+            </div>
+            <p class="text-secondary small mb-3">Strong authentication hygiene prevents credential stuffing and brute-force attacks across your accounts.</p>
+            <ul class="list-unstyled text-secondary small mb-0" style="line-height:1.7;">
+                <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i><strong>Use unique passphrases:</strong> At least 14 characters combining uppercase, lowercase, numbers, and symbols.</li>
+                <li class="mb-2"><i class="fa-solid fa-xmark text-danger me-2"></i><strong>No password recycling:</strong> Never reuse your email or primary banking password on other shopping websites.</li>
+                <li class="mb-0"><i class="fa-solid fa-check text-success me-2"></i><strong>Enable 2FA everywhere:</strong> Use authenticator apps (Google Authenticator, Aegis) instead of SMS 2FA when available.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Pillar 3: Bank Details -->
+    <div class="col-md-6 col-lg-4">
+        <div class="glass-card h-100 p-4" style="border-top:3px solid #f59e0b;">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="stat-icon text-warning mb-0" style="width:40px;height:40px;font-size:1.1rem;">
+                    <i class="fa-solid fa-landmark"></i>
+                </div>
+                <h5 class="text-white fw-bold mb-0">3. Bank & Card Details</h5>
+            </div>
+            <p class="text-secondary small mb-3">Your account numbers, CVVs, expiry dates, and net-banking credentials require strict operational secrecy.</p>
+            <ul class="list-unstyled text-secondary small mb-0" style="line-height:1.7;">
+                <li class="mb-2"><i class="fa-solid fa-xmark text-danger me-2"></i><strong>Never share CVV:</strong> The 3-digit CVV on the back of your card must never be photographed or sent via chat.</li>
+                <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i><strong>Set daily transaction limits:</strong> Keep online debit card limits low and enable international usage only when traveling.</li>
+                <li class="mb-0"><i class="fa-solid fa-check text-success me-2"></i><strong>Direct address entry:</strong> Always type your bank's URL directly (e.g. <code>onlinesbi.sbi</code>) rather than clicking search engine ad links.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Pillar 4: UPI Details -->
+    <div class="col-md-6 col-lg-4">
+        <div class="glass-card h-100 p-4" style="border-top:3px solid #10b981;">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="stat-icon text-success mb-0" style="width:40px;height:40px;font-size:1.1rem;">
+                    <i class="fa-solid fa-indian-rupee-sign"></i>
+                </div>
+                <h5 class="text-white fw-bold mb-0">4. UPI & Payment Safety</h5>
+            </div>
+            <p class="text-secondary small mb-3">Unified Payments Interface (UPI) transfers execute instantaneously and cannot be canceled once authorized.</p>
+            <ul class="list-unstyled text-secondary small mb-0" style="line-height:1.7;">
+                <li class="mb-2"><i class="fa-solid fa-xmark text-danger me-2"></i><strong>Receiving does NOT need PIN:</strong> Entering your UPI PIN always DEDUCTS money. You NEVER enter a PIN to get money.</li>
+                <li class="mb-2"><i class="fa-solid fa-xmark text-danger me-2"></i><strong>Never scan stranger QR codes:</strong> "Scan to accept ₹5,000 refund" is 100% a fraudulent debit trick.</li>
+                <li class="mb-0"><i class="fa-solid fa-check text-success me-2"></i><strong>Decline unrequested collect calls:</strong> Always reject sudden collect requests from unknown VPA handles in GPay/PhonePe.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Pillar 5: Aadhaar & PAN -->
+    <div class="col-md-6 col-lg-4">
+        <div class="glass-card h-100 p-4" style="border-top:3px solid #a855f7;">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="stat-icon mb-0" style="width:40px;height:40px;font-size:1.1rem;color:#a855f7;">
+                    <i class="fa-solid fa-address-card"></i>
+                </div>
+                <h5 class="text-white fw-bold mb-0">5. Aadhaar & PAN Security</h5>
+            </div>
+            <p class="text-secondary small mb-3">Government IDs can be exploited for synthetic identity theft, unauthorized SIM card activations, or illegal loan apps.</p>
+            <ul class="list-unstyled text-secondary small mb-0" style="line-height:1.7;">
+                <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i><strong>Use Masked Aadhaar:</strong> Download the official masked Aadhaar from UIDAI where only the last 4 digits are visible.</li>
+                <li class="mb-2"><i class="fa-solid fa-lock text-info me-2"></i><strong>Lock your Biometrics:</strong> Use the mAadhaar app to lock your biometric data; unlock it only during legitimate KYC.</li>
+                <li class="mb-0"><i class="fa-solid fa-xmark text-danger me-2"></i><strong>Never share ID on WhatsApp:</strong> Do not send photocopies of PAN/Aadhaar to unverified job recruiters or loan agents.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Pillar 6: Personal Information -->
+    <div class="col-md-6 col-lg-4">
+        <div class="glass-card h-100 p-4" style="border-top:3px solid #ec4899;">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="stat-icon mb-0" style="width:40px;height:40px;font-size:1.1rem;color:#ec4899;">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <h5 class="text-white fw-bold mb-0">6. Personal Information Privacy</h5>
+            </div>
+            <p class="text-secondary small mb-3">Scammers aggregate social media clues (birthdays, family names, travel plans) to build hyper-convincing spear phishing attacks.</p>
+            <ul class="list-unstyled text-secondary small mb-0" style="line-height:1.7;">
+                <li class="mb-2"><i class="fa-solid fa-xmark text-danger me-2"></i><strong>Don't post travel tickets:</strong> Flight boarding passes contain PNR barcodes that expose personal passport details.</li>
+                <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i><strong>Set social accounts to private:</strong> Restrict stranger access to your family contacts and workplace history.</li>
+                <li class="mb-0"><i class="fa-solid fa-triangle-exclamation text-warning me-2"></i><strong>Beware of impersonation calls:</strong> Fraudsters use AI voice clones; establish a secret family safeword.</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<!-- Interactive Identity Security Checklist -->
+<div class="glass-card my-4 p-4 border-glow">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+        <div>
+            <h5 class="text-white fw-bold mb-1">
+                <i class="fa-solid fa-list-check me-2 text-success"></i>Interactive Identity Health Checklist
+            </h5>
+            <p class="text-secondary small mb-0">Check off the habits you currently practice to assess your digital defense level.</p>
+        </div>
+        <div class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 px-3 py-2 fs-6" id="scoreBadge">
+            Score: <span id="scoreVal">0</span> / 6 Completed
+        </div>
+    </div>
+
+    <div class="row g-3" id="checklistContainer">
+        <div class="col-md-6">
+            <div class="p-3 rounded bg-dark border border-secondary border-opacity-25 d-flex align-items-start gap-3">
+                <input class="form-check-input mt-1 id-check" type="checkbox" id="check1">
+                <label class="form-check-label text-secondary small cursor-pointer" for="check1">
+                    <strong class="text-white d-block">I never share OTPs or UPI PINs over phone or message</strong>
+                    Even if the caller claims to be from RBI, my bank, or electric utility board.
+                </label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-3 rounded bg-dark border border-secondary border-opacity-25 d-flex align-items-start gap-3">
+                <input class="form-check-input mt-1 id-check" type="checkbox" id="check2">
+                <label class="form-check-label text-secondary small cursor-pointer" for="check2">
+                    <strong class="text-white d-block">I use unique passwords for my email and net-banking</strong>
+                    I do not reuse the same password across various e-commerce websites.
+                </label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-3 rounded bg-dark border border-secondary border-opacity-25 d-flex align-items-start gap-3">
+                <input class="form-check-input mt-1 id-check" type="checkbox" id="check3">
+                <label class="form-check-label text-secondary small cursor-pointer" for="check3">
+                    <strong class="text-white d-block">I have locked my biometric data in mAadhaar</strong>
+                    Preventing unauthorized identity and fingerprint verification misuse.
+                </label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-3 rounded bg-dark border border-secondary border-opacity-25 d-flex align-items-start gap-3">
+                <input class="form-check-input mt-1 id-check" type="checkbox" id="check4">
+                <label class="form-check-label text-secondary small cursor-pointer" for="check4">
+                    <strong class="text-white d-block">I never scan unknown QR codes to "receive" funds</strong>
+                    Knowing that scanning and entering PIN always debits money from my account.
+                </label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-3 rounded bg-dark border border-secondary border-opacity-25 d-flex align-items-start gap-3">
+                <input class="form-check-input mt-1 id-check" type="checkbox" id="check5">
+                <label class="form-check-label text-secondary small cursor-pointer" for="check5">
+                    <strong class="text-white d-block">I have configured daily debit / online transfer limits</strong>
+                    Restricting maximum exposure in case my card details are compromised.
+                </label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-3 rounded bg-dark border border-secondary border-opacity-25 d-flex align-items-start gap-3">
+                <input class="form-check-input mt-1 id-check" type="checkbox" id="check6">
+                <label class="form-check-label text-secondary small cursor-pointer" for="check6">
+                    <strong class="text-white d-block">I verify suspicious messages with ScamShield AI</strong>
+                    Before clicking unknown links, forwarding alerts, or responding to demands.
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const checks = document.querySelectorAll('.id-check');
+    const scoreVal = document.getElementById('scoreVal');
+
+    function updateScore() {
+        let count = 0;
+        checks.forEach(c => { if (c.checked) count++; });
+        scoreVal.textContent = count;
+    }
+
+    checks.forEach(c => c.addEventListener('change', updateScore));
+});
+</script>
+{% endblock %}

@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+
+{% block title %}Comprehensive Threat Protection — SCAMSHIELD AI{% endblock %}
+
+{% block content %}
+<div class="my-4 text-center">
+    <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3"
+         style="background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3);color:var(--accent-blue);">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span class="small fw-semibold">Next-Gen Defense Suite</span>
+    </div>
+    <h1 class="text-white fw-bold mb-2">Comprehensive Threat Protection</h1>
+    <p class="text-secondary mx-auto" style="max-width:680px;">
+        Six specialized cybersecurity defense modules engineered to detect, analyze, and neutralize digital fraud across messages, links, media, and identity vectors.
+    </p>
+</div>
+
+<!-- 6 Dedicated Modules Grid -->
+<div class="row g-4 my-3">
+
+    <!-- Module 1: Screenshot Analysis -->
+    <div class="col-md-6 col-lg-4">
+        <a href="{{ url_for('threat_screenshot') }}" class="text-decoration-none d-block h-100">
+            <div class="glass-card h-100 awareness-card-link p-4 border-glow">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="stat-icon text-primary mb-0"><i class="fa-solid fa-camera"></i></div>
+                    <span class="badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25 px-2 py-1 rounded-pill small">Active Module</span>
+                </div>
+                <h5 class="text-white fw-bold mb-2">📸 Screenshot Analysis</h5>
+                <p class="text-secondary small mb-3">
+                    Upload screenshots of suspicious SMS, WhatsApp chats, fake OTP notifications, bank alerts, or UPI payments. AI Vision extracts text and runs multi-vector fraud classification.
+                </p>
+                <div class="d-flex align-items-center text-primary small fw-semibold">
+                    <span>Open Screenshot Analyzer</span>
+                    <i class="fa-solid fa-arrow-right ms-2"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Module 2: AI Discussions -->
+    <div class="col-md-6 col-lg-4">
+        <a href="{{ url_for('threat_discussion') }}" class="text-decoration-none d-block h-100">
+            <div class="glass-card h-100 awareness-card-link p-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="stat-icon text-info mb-0"><i class="fa-solid fa-comments"></i></div>
+                    <span class="badge bg-info bg-opacity-25 text-info border border-info border-opacity-25 px-2 py-1 rounded-pill small">Interactive AI</span>
+                </div>
+                <h5 class="text-white fw-bold mb-2">🤖 AI Discussions</h5>
+                <p class="text-secondary small mb-3">
+                    Consult our dedicated AI Safety Agent about questionable phone calls, unexpected OTP requests, electricity bill threats, or suspicious investment opportunities.
+                </p>
+                <div class="d-flex align-items-center text-info small fw-semibold">
+                    <span>Start AI Discussion</span>
+                    <i class="fa-solid fa-arrow-right ms-2"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Module 3: Link Safety Analysis -->
+    <div class="col-md-6 col-lg-4">
+        <a href="{{ url_for('threat_link_safety') }}" class="text-decoration-none d-block h-100">
+            <div class="glass-card h-100 awareness-card-link p-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="stat-icon text-warning mb-0"><i class="fa-solid fa-link"></i></div>
+                    <span class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-25 px-2 py-1 rounded-pill small">Deep Inspection</span>
+                </div>
+                <h5 class="text-white fw-bold mb-2">🔗 Link Safety Analysis</h5>
+                <p class="text-secondary small mb-3">
+                    Inspect external URLs and domains before clicking. Evaluates SSL encryption, raw IP hosts, URL shortener redirects, high-risk TLDs (.xyz, .top), and lookalike brand spoofs.
+                </p>
+                <div class="d-flex align-items-center text-warning small fw-semibold">
+                    <span>Analyze URL Safety</span>
+                    <i class="fa-solid fa-arrow-right ms-2"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Module 4: Personal Identity Suggestions -->
+    <div class="col-md-6 col-lg-4">
+        <a href="{{ url_for('threat_identity') }}" class="text-decoration-none d-block h-100">
+            <div class="glass-card h-100 awareness-card-link p-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="stat-icon text-success mb-0"><i class="fa-solid fa-id-card-clip"></i></div>
+                    <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 px-2 py-1 rounded-pill small">Identity Defense</span>
+                </div>
+                <h5 class="text-white fw-bold mb-2">💡 Personal Identity Suggestions</h5>
+                <p class="text-secondary small mb-3">
+                    Practical security protocols and checklists to safeguard your OTPs, passwords, bank account details, UPI PIN, Aadhaar, PAN, and confidential personal records.
+                </p>
+                <div class="d-flex align-items-center text-success small fw-semibold">
+                    <span>View Identity Guide</span>
+                    <i class="fa-solid fa-arrow-right ms-2"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Module 5: Incident Reports -->
+    <div class="col-md-6 col-lg-4">
+        <a href="{{ url_for('threat_incidents') }}" class="text-decoration-none d-block h-100">
+            <div class="glass-card h-100 awareness-card-link p-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="stat-icon text-danger mb-0"><i class="fa-solid fa-file-shield"></i></div>
+                    <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-25 px-2 py-1 rounded-pill small">Reporting Hub</span>
+                </div>
+                <h5 class="text-white fw-bold mb-2">📝 Incident Reports</h5>
+                <p class="text-secondary small mb-3">
+                    Understand how to document a scam incident, log suspected fraud details into your private vault, generate formal PDF records, and obtain legal reporting guidance for 1930 / cybercrime.gov.in.
+                </p>
+                <div class="d-flex align-items-center text-danger small fw-semibold">
+                    <span>Open Incident Hub</span>
+                    <i class="fa-solid fa-arrow-right ms-2"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Module 6: Multi-Tenant Support -->
+    <div class="col-md-6 col-lg-4">
+        <a href="{{ url_for('threat_multitenant') }}" class="text-decoration-none d-block h-100">
+            <div class="glass-card h-100 awareness-card-link p-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="stat-icon text-purple mb-0" style="color:#a855f7;"><i class="fa-solid fa-users-gear"></i></div>
+                    <span class="badge bg-opacity-25 border px-2 py-1 rounded-pill small" style="background:rgba(168,85,247,0.2);color:#c084fc;border-color:rgba(168,85,247,0.3);">Enterprise Ready</span>
+                </div>
+                <h5 class="text-white fw-bold mb-2">🏢 Multi-Tenant Support</h5>
+                <p class="text-secondary small mb-3">
+                    Explore ScamShield AI's multi-tenant architecture with strict tenant data isolation, encrypted user vaults, zero cross-user data leakage, and organization security compliance.
+                </p>
+                <div class="d-flex align-items-center small fw-semibold" style="color:#c084fc;">
+                    <span>Explore Multi-Tenant Architecture</span>
+                    <i class="fa-solid fa-arrow-right ms-2"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+
+</div>
+
+<!-- Quick Navigation Back -->
+<div class="text-center my-4">
+    {% if session.get('user_id') %}
+    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary text-light me-2">
+        <i class="fa-solid fa-arrow-left me-1"></i> Back to Dashboard
+    </a>
+    {% else %}
+    <a href="{{ url_for('index') }}" class="btn btn-outline-secondary text-light me-2">
+        <i class="fa-solid fa-arrow-left me-1"></i> Back to Home
+    </a>
+    {% endif %}
+    <a href="{{ url_for('analyze') }}" class="btn-custom btn-primary-glow">
+        <i class="fa-solid fa-magnifying-glass me-1"></i> Analyze Message Now
+    </a>
+</div>
+{% endblock %}

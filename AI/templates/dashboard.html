@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard — SCAMSHIELD AI{% endblock %}
+
+{% block content %}
+<div class="my-4">
+    <h1 class="text-white fw-bold mb-1">
+        <i class="fa-solid fa-chart-pie me-2 text-primary"></i>Your Dashboard
+    </h1>
+    <p class="text-muted">Welcome back, <strong class="text-white">{{ session.get('user_name', 'User') }}</strong>. Here's your scam protection summary.</p>
+</div>
+
+<!-- Stats Row -->
+<div class="row g-4 mb-4">
+    <div class="col-sm-6 col-lg-3">
+        <div class="glass-card text-center">
+            <div class="stat-icon text-primary mb-2"><i class="fa-solid fa-chart-bar"></i></div>
+            <h3 class="text-white fw-bold">{{ stats.total }}</h3>
+            <p class="text-muted small mb-0">Total Analyses</p>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="glass-card text-center">
+            <div class="stat-icon text-danger mb-2"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <h3 class="text-white fw-bold">{{ stats.high }}</h3>
+            <p class="text-muted small mb-0">High Risk Detected</p>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="glass-card text-center">
+            <div class="stat-icon text-warning mb-2"><i class="fa-solid fa-circle-exclamation"></i></div>
+            <h3 class="text-white fw-bold">{{ stats.suspicious }}</h3>
+            <p class="text-muted small mb-0">Suspicious Messages</p>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="glass-card text-center">
+            <div class="stat-icon text-success mb-2"><i class="fa-solid fa-circle-check"></i></div>
+            <h3 class="text-white fw-bold">{{ stats.low }}</h3>
+            <p class="text-muted small mb-0">Low Risk / Safe</p>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row -->
+<div class="row g-4 mb-4">
+    <div class="col-lg-4">
+        <div class="glass-card">
+            <h6 class="text-white fw-bold mb-3"><i class="fa-solid fa-chart-pie me-2 text-primary"></i>Risk Distribution</h6>
+            <div style="height:220px;">
+                <canvas id="riskChart"
+                    data-low="{{ stats.low }}"
+                    data-suspicious="{{ stats.suspicious }}"
+                    data-high="{{ stats.high }}">
+                </canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="glass-card">
+            <h6 class="text-white fw-bold mb-3"><i class="fa-solid fa-tag me-2 text-info"></i>Scam Type Breakdown</h6>
+            <div style="height:220px;">
+                <canvas id="typeChart"
+                    data-types="{{ stats.scam_types | tojson }}">
+                </canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="glass-card">
+            <h6 class="text-white fw-bold mb-3"><i class="fa-solid fa-users me-2 text-purple"></i>Community Trends</h6>
+            <div style="height:220px;">
+                <canvas id="trendChart"
+                    data-trends="{{ trends.trends | tojson }}">
+                </canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Analyses -->
+<div class="glass-card mb-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h6 class="text-white fw-bold mb-0"><i class="fa-solid fa-clock-rotate-left me-2 text-warning"></i>Recent Analyses</h6>
+        <a href="{{ url_for('reports') }}" class="btn btn-sm btn-outline-secondary text-light">View All</a>
+    </div>
+
+    {% if recent_analyses %}
+    <div class="table-responsive">
+        <table class="table table-dark table-hover align-middle mb-0">
+            <thead>
+                <tr class="text-muted small">
+                    <th>Message Preview</th>
+                    <th>Scam Type</th>
+                    <th>Risk Level</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in recent_analyses %}
+                <tr>
+                    <td class="text-light small font-monospace" style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                        {{ r.message_text[:80] }}{% if r.message_text|length > 80 %}…{% endif %}
+                    </td>
+                    <td><span class="badge bg-secondary">{{ r.scam_type }}</span></td>
+                    <td>
+                        {% if r.risk_level | upper == 'HIGH' %}
+                            <span class="badge bg-danger">🔴 HIGH</span>
+                        {% elif r.risk_level | upper == 'SUSPICIOUS' %}
+                            <span class="badge bg-warning text-dark">🟡 SUSPICIOUS</span>
+                        {% else %}
+                            <span class="badge bg-success">🟢 LOW</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-muted small">{{ r.created_at[:10] if r.created_at else '—' }}</td>
+                    <td>
+                        <a href="{{ url_for('result', id=r.id) }}" class="btn btn-sm btn-outline-primary">View</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="text-center py-4">
+        <i class="fa-solid fa-magnifying-glass fa-2x text-muted mb-2"></i>
+        <p class="text-muted mb-2">No analyses yet.</p>
+        <a href="{{ url_for('analyze') }}" class="btn-custom btn-primary-glow">Analyze Your First Message</a>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Quick Actions -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <a href="{{ url_for('analyze') }}" class="glass-card d-block text-decoration-none text-center p-3 border-glow h-100">
+            <i class="fa-solid fa-magnifying-glass fa-2x text-primary mb-2"></i>
+            <h6 class="text-white fw-bold mb-0">Analyze Message</h6>
+            <p class="text-muted small mb-0">Check a suspicious message now</p>
+        </a>
+    </div>
+    <div class="col-md-3">
+        <a href="{{ url_for('threat_protection') }}" class="glass-card d-block text-decoration-none text-center p-3 h-100">
+            <i class="fa-solid fa-shield-halved fa-2x text-warning mb-2"></i>
+            <h6 class="text-white fw-bold mb-0">Threat Protection</h6>
+            <p class="text-muted small mb-0">6 specialized defense tools</p>
+        </a>
+    </div>
+    <div class="col-md-3">
+        <a href="{{ url_for('reports') }}" class="glass-card d-block text-decoration-none text-center p-3 h-100">
+            <i class="fa-solid fa-file-invoice fa-2x text-info mb-2"></i>
+            <h6 class="text-white fw-bold mb-0">My Reports</h6>
+            <p class="text-muted small mb-0">View & download all reports</p>
+        </a>
+    </div>
+    <div class="col-md-3">
+        <a href="{{ url_for('awareness') }}" class="glass-card d-block text-decoration-none text-center p-3 h-100">
+            <i class="fa-solid fa-graduation-cap fa-2x text-success mb-2"></i>
+            <h6 class="text-white fw-bold mb-0">Awareness Center</h6>
+            <p class="text-muted small mb-0">Learn about scam types</p>
+        </a>
+    </div>
+</div>
+
+<!-- Comprehensive Threat Protection Suite (6 Clickable Modules) -->
+<div class="glass-card mb-4 p-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <div>
+            <h5 class="text-white fw-bold mb-1">
+                <i class="fa-solid fa-shield-halved me-2 text-primary"></i>Comprehensive Threat Protection
+            </h5>
+            <p class="text-secondary small mb-0">Specialized defense modules to detect fraud, inspect URLs, and protect personal identity.</p>
+        </div>
+        <a href="{{ url_for('threat_protection') }}" class="btn btn-sm btn-outline-primary">View Suite</a>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            <a href="{{ url_for('threat_screenshot') }}" class="text-decoration-none d-block h-100">
+                <div class="p-3 rounded bg-dark border border-secondary border-opacity-25 h-100 awareness-card-link">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="fa-solid fa-camera text-primary"></i>
+                        <h6 class="text-white fw-bold mb-0 small">Screenshot Analysis</h6>
+                    </div>
+                    <p class="text-muted small mb-0">OCR extracts chat text to evaluate scam risk from images.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ url_for('threat_discussion') }}" class="text-decoration-none d-block h-100">
+                <div class="p-3 rounded bg-dark border border-secondary border-opacity-25 h-100 awareness-card-link">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="fa-solid fa-comments text-info"></i>
+                        <h6 class="text-white fw-bold mb-0 small">AI Discussions</h6>
+                    </div>
+                    <p class="text-muted small mb-0">Consult AI about suspicious calls, messages, and safety.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ url_for('threat_link_safety') }}" class="text-decoration-none d-block h-100">
+                <div class="p-3 rounded bg-dark border border-secondary border-opacity-25 h-100 awareness-card-link">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="fa-solid fa-link text-warning"></i>
+                        <h6 class="text-white fw-bold mb-0 small">Link Safety Analysis</h6>
+                    </div>
+                    <p class="text-muted small mb-0">Inspect raw IPs, phishing domains, and redirect risks.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ url_for('threat_identity') }}" class="text-decoration-none d-block h-100">
+                <div class="p-3 rounded bg-dark border border-secondary border-opacity-25 h-100 awareness-card-link">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="fa-solid fa-id-card-clip text-success"></i>
+                        <h6 class="text-white fw-bold mb-0 small">Personal Identity Suggestions</h6>
+                    </div>
+                    <p class="text-muted small mb-0">Safeguard OTPs, net banking, UPI, and Aadhaar/PAN.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ url_for('threat_incidents') }}" class="text-decoration-none d-block h-100">
+                <div class="p-3 rounded bg-dark border border-secondary border-opacity-25 h-100 awareness-card-link">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="fa-solid fa-file-shield text-danger"></i>
+                        <h6 class="text-white fw-bold mb-0 small">Incident Reports</h6>
+                    </div>
+                    <p class="text-muted small mb-0">Document suspected fraud and access legal reporting steps.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ url_for('threat_multitenant') }}" class="text-decoration-none d-block h-100">
+                <div class="p-3 rounded bg-dark border border-secondary border-opacity-25 h-100 awareness-card-link">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="fa-solid fa-users-gear" style="color:#a855f7;"></i>
+                        <h6 class="text-white fw-bold mb-0 small">Multi-Tenant Support</h6>
+                    </div>
+                    <p class="text-muted small mb-0">Strict row-level tenant data isolation & security model.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

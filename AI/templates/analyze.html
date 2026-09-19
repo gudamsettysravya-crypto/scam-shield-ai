@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}Analyze Message — SCAMSHIELD AI{% endblock %}
+
+{% block content %}
+<div class="my-4">
+    <h1 class="text-white fw-bold mb-1">
+        <i class="fa-solid fa-magnifying-glass me-2 text-primary"></i>Analyze a Suspicious Message
+    </h1>
+    <p class="text-muted">Paste text, upload a screenshot, or load a sample message to run AI scam detection.</p>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="glass-card">
+            <form method="POST" action="{{ url_for('analyze') }}" enctype="multipart/form-data" id="analyzeForm">
+
+                <!-- Language Selection -->
+                <div class="mb-3">
+                    <label for="language" class="form-label text-secondary">Output Language</label>
+                    <select id="language" name="language" class="form-select bg-dark text-white border-secondary">
+                        <option value="en">🇬🇧 English</option>
+                        <option value="hi">🇮🇳 Hindi (हिंदी)</option>
+                        <option value="te">🇮🇳 Telugu (తెలుగు)</option>
+                    </select>
+                </div>
+
+                <!-- Message Text -->
+                <div class="mb-3">
+                    <label for="message_text" class="form-label text-secondary">Suspicious Message / Text</label>
+                    <textarea id="message_text" name="message_text" class="form-control bg-dark text-white border-secondary"
+                              rows="7" placeholder="Paste the suspicious SMS, WhatsApp message, email content, or URL here..."
+                              style="font-family: monospace; resize: vertical;"></textarea>
+                </div>
+
+                <!-- Sample Loaders -->
+                <div class="mb-3">
+                    <p class="text-muted small mb-2">Load a demo sample:</p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button type="button" class="btn btn-sm btn-outline-danger sample-btn" data-sample="prize">🎁 Prize Scam</button>
+                        <button type="button" class="btn btn-sm btn-outline-warning sample-btn" data-sample="otp">🏦 Bank Phishing</button>
+                        <button type="button" class="btn btn-sm btn-outline-info sample-btn" data-sample="job">💼 Job Scam</button>
+                        <button type="button" class="btn btn-sm btn-outline-success sample-btn" data-sample="low">✅ Legit Message</button>
+                    </div>
+                </div>
+
+                <!-- Screenshot Upload -->
+                <div class="mb-3">
+                    <label for="screenshot" class="form-label text-secondary">Upload Screenshot (optional)</label>
+                    <input type="file" id="screenshot" name="screenshot" class="form-control bg-dark text-white border-secondary"
+                           accept=".png,.jpg,.jpeg,.webp">
+                    <div class="form-text text-muted">PNG, JPG, JPEG, WEBP — max 16 MB. AI Vision will extract text automatically.</div>
+                </div>
+
+                <!-- Image Preview -->
+                <div id="imagePreviewContainer" style="display:none;" class="mb-3">
+                    <img id="imagePreview" src="" alt="Screenshot Preview"
+                         class="img-fluid rounded border border-secondary" style="max-height:200px;">
+                </div>
+
+                <!-- OCR Status -->
+                <div id="ocrStatus" class="alert alert-info mt-2" style="display:none;"></div>
+
+                <!-- Submit -->
+                <button type="submit" id="submitBtn" class="btn-custom btn-primary-glow w-100 mt-2">
+                    <i class="fa-solid fa-robot me-2"></i> Run AI Scam Analysis
+                </button>
+            </form>
+
+            <!-- AI Pipeline Visualizer -->
+            <div id="pipelineContainer" style="display:none;" class="mt-4">
+                <p class="text-muted small mb-2 text-center">🤖 Running multi-agent AI analysis pipeline...</p>
+                <div class="d-flex flex-wrap justify-content-center gap-2">
+                    <div class="pipeline-step badge bg-secondary px-3 py-2">📝 Text Parser</div>
+                    <div class="pipeline-step badge bg-secondary px-3 py-2">🔗 URL Inspector</div>
+                    <div class="pipeline-step badge bg-secondary px-3 py-2">🤖 Gemini AI Reasoner</div>
+                    <div class="pipeline-step badge bg-secondary px-3 py-2">📊 Risk Classifier</div>
+                    <div class="pipeline-step badge bg-secondary px-3 py-2">💡 Safety Advisor</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar Tips -->
+    <div class="col-lg-4">
+        <div class="glass-card mb-3">
+            <h6 class="text-white fw-bold mb-3"><i class="fa-solid fa-lightbulb me-2 text-warning"></i>What We Detect</h6>
+            <ul class="list-unstyled text-muted small mb-0">
+                <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i>UPI / Payment fraud requests</li>
+                <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i>OTP phishing & bank impersonation</li>
+                <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i>Fake lottery & prize scams</li>
+                <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i>Fake job offers with registration fees</li>
+                <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i>Malicious URLs & suspicious domains</li>
+                <li class="mb-0"><i class="fa-solid fa-check text-success me-2"></i>Emotionally manipulative language</li>
+            </ul>
+        </div>
+        <div class="glass-card">
+            <h6 class="text-white fw-bold mb-3"><i class="fa-solid fa-shield-halved me-2 text-primary"></i>How It Works</h6>
+            <ol class="text-muted small ps-3 mb-0">
+                <li class="mb-2">Paste the suspicious message text</li>
+                <li class="mb-2">Or upload a screenshot for AI OCR extraction</li>
+                <li class="mb-2">Our AI analyzes text, URLs, urgency, and social engineering patterns</li>
+                <li class="mb-0">Get a full risk report with actionable safety steps</li>
+            </ol>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/analyzer.js') }}"></script>
+{% endblock %}

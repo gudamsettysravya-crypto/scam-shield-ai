@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Register — SCAMSHIELD AI{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-5">
+    <div class="col-md-6 col-lg-5">
+        <div class="glass-card p-4">
+            <div class="text-center mb-4">
+                <div class="brand-shield-icon mx-auto mb-3" style="width:60px;height:60px;font-size:1.6rem;">
+                    <i class="fa-solid fa-user-plus text-white"></i>
+                </div>
+                <h2 class="text-white fw-bold mb-1">Create Account</h2>
+                <p class="text-muted small">Join SCAMSHIELD AI and protect yourself from digital scams</p>
+            </div>
+
+            <form method="POST" action="{{ url_for('register') }}" novalidate>
+                <div class="mb-3">
+                    <label for="full_name" class="form-label text-secondary">Full Name</label>
+                    <input type="text" id="full_name" name="full_name" class="form-control bg-dark text-white border-secondary"
+                           placeholder="Your full name" required autocomplete="name">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label text-secondary">Email Address</label>
+                    <input type="email" id="email" name="email" class="form-control bg-dark text-white border-secondary"
+                           placeholder="you@email.com" required autocomplete="email">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label text-secondary">Password</label>
+                    <input type="password" id="password" name="password" class="form-control bg-dark text-white border-secondary"
+                           placeholder="Min 6 characters" required autocomplete="new-password">
+                </div>
+                <div class="mb-4">
+                    <label for="confirm_password" class="form-label text-secondary">Confirm Password</label>
+                    <input type="password" id="confirm_password" name="confirm_password" class="form-control bg-dark text-white border-secondary"
+                           placeholder="Repeat password" required autocomplete="new-password">
+                </div>
+                <button type="submit" class="btn-custom btn-primary-glow w-100">
+                    <i class="fa-solid fa-user-plus me-2"></i> Create Account
+                </button>
+            </form>
+
+            <hr class="border-secondary my-4">
+            <p class="text-center text-muted small mb-0">
+                Already have an account?
+                <a href="{{ url_for('login') }}" class="text-primary">Sign in here</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

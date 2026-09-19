@@ -1,0 +1,269 @@
+{% extends 'base.html' %}
+
+{% block title %}Screenshot Analysis — SCAMSHIELD AI{% endblock %}
+
+{% block content %}
+<div class="my-3 d-flex align-items-center gap-2">
+    <a href="{{ url_for('threat_protection') }}" class="btn btn-sm btn-outline-secondary text-light">
+        <i class="fa-solid fa-arrow-left me-1"></i> Threat Protection
+    </a>
+    <span class="text-muted small">/ Screenshot Analysis</span>
+</div>
+
+<div class="my-3">
+    <h1 class="text-white fw-bold mb-1">
+        <i class="fa-solid fa-camera me-2 text-primary"></i>Screenshot Analysis
+    </h1>
+    <p class="text-secondary">
+        Upload or select a screenshot of a suspicious SMS, WhatsApp chat, OTP notification, bank alert, or UPI payment message. Our AI Vision system extracts and analyzes the content for fraud risks.
+    </p>
+</div>
+
+<div class="row g-4">
+    <!-- Left Column: Upload / Select Form -->
+    <div class="col-lg-6">
+        <div class="glass-card mb-4 border-glow">
+            <h5 class="text-white fw-bold mb-3">
+                <i class="fa-solid fa-upload me-2 text-primary"></i>Upload Suspicious Screenshot
+            </h5>
+
+            <form method="POST" action="{{ url_for('threat_screenshot') }}" enctype="multipart/form-data" id="screenshotForm">
+                <div class="mb-3">
+                    <label for="screenshotFile" class="form-label text-secondary">Select Image File (PNG, JPG, JPEG, WEBP)</label>
+                    <input type="file" id="screenshotFile" name="screenshot" class="form-control bg-dark text-white border-secondary"
+                           accept=".png,.jpg,.jpeg,.webp">
+                    <div class="form-text text-muted">Maximum file size: 16 MB. OCR vision processing runs automatically.</div>
+                </div>
+
+                <!-- Preview Area -->
+                <div id="previewWrapper" class="mb-3" style="display:none;">
+                    <p class="text-muted small mb-1">Selected Image Preview:</p>
+                    <div class="p-2 rounded bg-dark text-center" style="border:1px dashed var(--border-glow);">
+                        <img id="screenshotPreview" src="" alt="Screenshot" class="img-fluid rounded" style="max-height:220px;object-fit:contain;">
+                    </div>
+                </div>
+
+                <!-- Sample Presets for Quick Testing -->
+                <div class="mb-3">
+                    <label class="form-label text-secondary small mb-1">Or test with a preset suspicious scenario:</label>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button type="button" class="btn btn-sm btn-outline-danger sample-choice-btn"
+                                data-text="SBI ALERT: Your NetBanking account will be blocked today due to pending KYC update. Click http://192.168.1.55/sbi-verify to update immediately or call 9123456789.">
+                            🏦 Bank / KYC Phishing
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-warning sample-choice-btn"
+                                data-text="WhatsApp Message: Congratulations! Your mobile number won 25,00,000 INR in KBC WhatsApp Lucky Draw 2026. Send 499 INR processing fee to claim your prize. Contact: +91-9876543210">
+                            🎁 Lottery / WhatsApp Prize
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-info sample-choice-btn"
+                                data-text="Dear user, Amazon part-time job offer. Earn 3000 Rs daily by liking YouTube videos. Telegram @easy_earn_tasks. Pay 200 Rs registration fee to start now.">
+                            💼 Fake Job SMS
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-success sample-choice-btn"
+                                data-text="PhonePe Alert: You received a collect request of Rs. 15,000 from buyer Rohit. Enter your UPI PIN to claim money into your bank account.">
+                            💸 UPI / Collect Request
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Extracted / Editable Content -->
+                <div class="mb-3">
+                    <label for="extractedText" class="form-label text-secondary">
+                        Detected / Extracted Message Content
+                        <span id="ocrSpinner" class="spinner-border spinner-border-sm text-primary ms-2" style="display:none;" role="status"></span>
+                    </label>
+                    <textarea id="extractedText" name="message_text" class="form-control bg-dark text-white border-secondary font-monospace"
+                              rows="6" placeholder="Extracted text from your screenshot will appear here, or you can paste / edit it..." required>{{ analyzed_content or '' }}</textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="languageSelect" class="form-label text-secondary small">Analysis Language</label>
+                    <select id="languageSelect" name="language" class="form-select bg-dark text-white border-secondary form-select-sm">
+                        <option value="en">English</option>
+                        <option value="hi">Hindi (हिंदी)</option>
+                        <option value="te">Telugu (తెలుగు)</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="runScreenshotBtn" class="btn-custom btn-primary-glow w-100">
+                    <i class="fa-solid fa-brain me-2"></i> Analyze Screenshot Fraud Risk
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Right Column: Results Area -->
+    <div class="col-lg-6">
+        {% if analysis %}
+        <!-- Analysis Results Card -->
+        <div class="glass-card mb-4 border-glow">
+            <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom border-secondary border-opacity-25">
+                <h5 class="text-white fw-bold mb-0">
+                    <i class="fa-solid fa-magnifying-glass-chart me-2 text-primary"></i>Analysis Outcome
+                </h5>
+                {% if analysis.risk_level | upper == 'HIGH' %}
+                    <span class="badge bg-danger px-3 py-2 fs-6"><i class="fa-solid fa-triangle-exclamation me-1"></i> HIGH RISK</span>
+                {% elif analysis.risk_level | upper == 'SUSPICIOUS' %}
+                    <span class="badge bg-warning text-dark px-3 py-2 fs-6"><i class="fa-solid fa-circle-exclamation me-1"></i> SUSPICIOUS</span>
+                {% else %}
+                    <span class="badge bg-success px-3 py-2 fs-6"><i class="fa-solid fa-circle-check me-1"></i> LOW RISK / SAFE</span>
+                {% endif %}
+            </div>
+
+            <!-- Detected Content Review -->
+            <div class="mb-3">
+                <h6 class="text-white fw-semibold small mb-1"><i class="fa-solid fa-file-lines me-1 text-info"></i> Detected Content:</h6>
+                <div class="bg-dark bg-opacity-50 p-2 rounded small text-light font-monospace" style="max-height:100px;overflow-y:auto;border:1px solid rgba(255,255,255,0.08);">
+                    {{ analyzed_content }}
+                </div>
+            </div>
+
+            <!-- Scam / Fraud Risk Category -->
+            <div class="mb-3">
+                <h6 class="text-white fw-semibold small mb-1"><i class="fa-solid fa-tag me-1 text-warning"></i> Scam / Fraud Risk:</h6>
+                <p class="text-light fw-bold mb-0">{{ analysis.scam_type or 'Fraudulent Communication' }}</p>
+            </div>
+
+            <!-- Explanation -->
+            <div class="mb-3">
+                <h6 class="text-white fw-semibold small mb-1"><i class="fa-solid fa-circle-info me-1 text-primary"></i> Explanation:</h6>
+                <p class="text-secondary small mb-0" style="line-height:1.65;">
+                    {{ analysis.summary or 'The content in this screenshot exhibits high-risk indicators associated with social engineering and fraud.' }}
+                </p>
+            </div>
+
+            <!-- Suspicious Indicators -->
+            <div class="mb-3">
+                <h6 class="text-white fw-semibold small mb-1"><i class="fa-solid fa-triangle-exclamation me-1 text-danger"></i> Suspicious Indicators:</h6>
+                <ul class="list-unstyled mb-0">
+                    {% for ind in analysis.indicators %}
+                    <li class="text-secondary small mb-1 d-flex align-items-start gap-2">
+                        <i class="fa-solid fa-circle-xmark text-danger mt-1 flex-shrink-0"></i>
+                        <span>{{ ind }}</span>
+                    </li>
+                    {% else %}
+                    <li class="text-secondary small">No specific threat flags detected.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Safety Recommendations -->
+            <div class="mb-3">
+                <h6 class="text-white fw-semibold small mb-1"><i class="fa-solid fa-shield-halved me-1 text-success"></i> Safety Recommendations:</h6>
+                <ul class="list-unstyled mb-0">
+                    {% for rec in analysis.safety_suggestions %}
+                    <li class="text-secondary small mb-1 d-flex align-items-start gap-2">
+                        <i class="fa-solid fa-check text-success mt-1 flex-shrink-0"></i>
+                        <span>{{ rec }}</span>
+                    </li>
+                    {% else %}
+                    <li class="text-secondary small">Maintain standard caution with digital communications.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Immediate Next Steps -->
+            <div class="mb-4">
+                <h6 class="text-white fw-semibold small mb-1"><i class="fa-solid fa-list-check me-1 text-info"></i> Immediate Next Steps:</h6>
+                <ol class="text-secondary small ps-3 mb-0" style="line-height:1.7;">
+                    {% for step in analysis.next_steps %}
+                    <li>{{ step }}</li>
+                    {% else %}
+                    <li>Do not share personal details or OTPs.</li>
+                    <li>Block the suspicious sender.</li>
+                    {% endfor %}
+                </ol>
+            </div>
+
+            {% if report_id %}
+            <div class="d-flex gap-2 flex-wrap">
+                <a href="{{ url_for('download_report', id=report_id) }}" class="btn-custom btn-primary-glow flex-grow-1 text-center">
+                    <i class="fa-solid fa-file-pdf me-2"></i> Download Full PDF Report
+                </a>
+                <a href="{{ url_for('result', id=report_id) }}" class="btn btn-outline-info text-white">
+                    <i class="fa-solid fa-eye me-1"></i> View Detailed Report
+                </a>
+            </div>
+            {% endif %}
+        </div>
+        {% else %}
+        <!-- Placeholder / Guide on what screenshot analysis covers -->
+        <div class="glass-card mb-4">
+            <h5 class="text-white fw-bold mb-3">
+                <i class="fa-solid fa-circle-question me-2 text-info"></i>What Can You Check?
+            </h5>
+            <div class="d-flex flex-column gap-3">
+                <div class="p-3 rounded" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);">
+                    <h6 class="text-white fw-bold mb-1"><i class="fa-brands fa-whatsapp text-success me-2"></i>WhatsApp & SMS Chats</h6>
+                    <p class="text-muted small mb-0">Upload chat screenshots containing prize announcements, overseas job offers, or strangers asking for urgent monetary help.</p>
+                </div>
+                <div class="p-3 rounded" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);">
+                    <h6 class="text-white fw-bold mb-1"><i class="fa-solid fa-landmark text-warning me-2"></i>Bank & Electricity Alerts</h6>
+                    <p class="text-muted small mb-0">Detect fake KYC deactivation SMS, power cut warnings, and spoofed net-banking portals asking for credentials.</p>
+                </div>
+                <div class="p-3 rounded" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);">
+                    <h6 class="text-white fw-bold mb-1"><i class="fa-solid fa-qrcode text-primary me-2"></i>Payment Collect Requests</h6>
+                    <p class="text-muted small mb-0">Inspect QR codes or payment screenshots claiming you will "receive" funds by entering your UPI PIN.</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const fileInput = document.getElementById('screenshotFile');
+    const previewWrapper = document.getElementById('previewWrapper');
+    const previewImg = document.getElementById('screenshotPreview');
+    const textarea = document.getElementById('extractedText');
+    const ocrSpinner = document.getElementById('ocrSpinner');
+
+    // Preset sample loader
+    document.querySelectorAll('.sample-choice-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            textarea.value = btn.getAttribute('data-text');
+            textarea.focus();
+        });
+    });
+
+    // File input change preview + OCR trigger
+    if (fileInput) {
+        fileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+                previewImg.src = evt.target.result;
+                previewWrapper.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+
+            // Trigger instant OCR extraction
+            const formData = new FormData();
+            formData.append('file', file);
+            if (ocrSpinner) ocrSpinner.style.display = 'inline-block';
+
+            try {
+                const response = await fetch('/analyze/api_ocr', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                if (result.success && result.extracted_text) {
+                    textarea.value = result.extracted_text;
+                }
+            } catch (err) {
+                console.log('OCR request completed with manual fallback enabled:', err);
+            } finally {
+                if (ocrSpinner) ocrSpinner.style.display = 'none';
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

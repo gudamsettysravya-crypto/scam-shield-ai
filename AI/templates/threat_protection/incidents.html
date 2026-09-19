@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% block title %}Incident Reports — SCAMSHIELD AI{% endblock %}
+
+{% block content %}
+<div class="my-3 d-flex align-items-center gap-2">
+    <a href="{{ url_for('threat_protection') }}" class="btn btn-sm btn-outline-secondary text-light">
+        <i class="fa-solid fa-arrow-left me-1"></i> Threat Protection
+    </a>
+    <span class="text-muted small">/ Incident Reports</span>
+</div>
+
+<div class="my-3">
+    <h1 class="text-white fw-bold mb-1">
+        <i class="fa-solid fa-file-shield me-2 text-danger"></i>Incident Reports & Scam Reporting Hub
+    </h1>
+    <p class="text-secondary">
+        Document suspected fraud, generate structured forensic incident reports, and understand how to report scams legally through India's National Cybercrime Portal and banking channels.
+    </p>
+</div>
+
+<div class="row g-4">
+    <!-- Left Column: Report Suspected Incident Form -->
+    <div class="col-lg-7">
+        <div class="glass-card mb-4 border-glow">
+            <h5 class="text-white fw-bold mb-3">
+                <i class="fa-solid fa-pen-to-square me-2 text-primary"></i>Record / Report a Suspected Incident
+            </h5>
+            <p class="text-secondary small mb-3">
+                Enter details regarding the suspicious message, call, payment demand, or fraud attempt. ScamShield AI will analyze the risk and log an official incident record into your private vault.
+            </p>
+
+            <form method="POST" action="{{ url_for('threat_record_incident') }}">
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label for="scamCategory" class="form-label text-secondary small">Suspected Scam Category</label>
+                        <select id="scamCategory" name="scam_category" class="form-select bg-dark text-white border-secondary form-select-sm" required>
+                            <option value="Banking Phishing">Banking / KYC Phishing</option>
+                            <option value="Payment / UPI Scam">UPI / QR Payment Fraud</option>
+                            <option value="Prize / Lottery Scam">Prize / Lucky Draw Scam</option>
+                            <option value="Fake Job Scam">Part-time / Work From Home Job Scam</option>
+                            <option value="Electricity Bill Scam">Utility / Electricity Disconnection</option>
+                            <option value="Loan Scam">Instant / Harassment Loan App</option>
+                            <option value="Romance Scam">Romance / Matrimonial Fraud</option>
+                            <option value="Suspicious Link">Malicious URL / Clone Website</option>
+                            <option value="Other">Other Suspicious Activity</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="suspectIdentifier" class="form-label text-secondary small">Suspect Phone / UPI ID / URL</label>
+                        <input type="text" id="suspectIdentifier" name="suspect_identifier" class="form-control bg-dark text-white border-secondary form-control-sm"
+                               placeholder="e.g. +91 9876543210 or scammer@upi or http://..." required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="incidentNarrative" class="form-label text-secondary small">Incident Description & Exact Message Text</label>
+                    <textarea id="incidentNarrative" name="incident_narrative" class="form-control bg-dark text-white border-secondary font-monospace"
+                              rows="5" placeholder="Paste the message content received, or describe the sequence of events (what the caller said, demands made, links provided)..." required></textarea>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label for="financialLoss" class="form-label text-secondary small">Was Money Debited / Transferred?</label>
+                        <select id="financialLoss" name="financial_loss" class="form-select bg-dark text-white border-secondary form-select-sm">
+                            <option value="No">No financial loss occurred</option>
+                            <option value="Yes - Under ₹5,000">Yes, under ₹5,000</option>
+                            <option value="Yes - ₹5,000 to ₹50,000">Yes, ₹5,000 to ₹50,000</option>
+                            <option value="Yes - Above ₹50,000">Yes, above ₹50,000</option>
+                            <option value="Attempted but blocked">Attempted, but transaction was blocked</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="incidentLanguage" class="form-label text-secondary small">Report Language</label>
+                        <select id="incidentLanguage" name="language" class="form-select bg-dark text-white border-secondary form-select-sm">
+                            <option value="en">English</option>
+                            <option value="hi">Hindi (हिंदी)</option>
+                            <option value="te">Telugu (తెలుగు)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-custom btn-primary-glow w-100">
+                    <i class="fa-solid fa-file-circle-check me-2"></i> File Incident & Generate Forensic Report
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Right Column: Official Reporting Guide & Recent Incident History -->
+    <div class="col-lg-5">
+        <!-- Emergency Legal Steps -->
+        <div class="glass-card mb-4" style="border-left:4px solid #ef4444;">
+            <h6 class="text-white fw-bold mb-3">
+                <i class="fa-solid fa-shield-halved me-2 text-danger"></i>Golden Hours Action Protocol
+            </h6>
+            <div class="d-flex flex-column gap-2 text-secondary small" style="line-height:1.65;">
+                <p class="mb-1 text-light"><strong>If money was transferred in the last 24 hours:</strong></p>
+                <div class="p-2 rounded bg-dark border border-secondary border-opacity-25">
+                    <strong class="text-danger d-block">1. Dial 1930 Immediately</strong>
+                    The National Cyber Helpline can place an immediate freeze on the recipient account if reported quickly.
+                </div>
+                <div class="p-2 rounded bg-dark border border-secondary border-opacity-25">
+                    <strong class="text-warning d-block">2. Contact Your Bank's Fraud Desk</strong>
+                    Request immediate transaction dispute, card hotlisting, and account freezing.
+                </div>
+                <div class="p-2 rounded bg-dark border border-secondary border-opacity-25">
+                    <strong class="text-primary d-block">3. File at cybercrime.gov.in</strong>
+                    Save your ScamShield PDF incident report and upload it as supporting evidence.
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Logged Incidents -->
+        <div class="glass-card mb-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h6 class="text-white fw-bold mb-0">
+                    <i class="fa-solid fa-clock-rotate-left me-2 text-warning"></i>Your Logged Incidents
+                </h6>
+                <a href="{{ url_for('reports') }}" class="btn btn-sm btn-outline-secondary text-light">View All</a>
+            </div>
+
+            {% if recent_reports %}
+            <div class="d-flex flex-column gap-2">
+                {% for inc in recent_reports %}
+                <div class="p-2 rounded bg-dark border border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
+                    <div style="max-width:65%;overflow:hidden;">
+                        <strong class="text-light small d-block text-truncate">{{ inc.scam_type }}</strong>
+                        <span class="text-muted" style="font-size:0.75rem;">{{ inc.created_at[:10] }} • #{{ inc.id }}</span>
+                    </div>
+                    <div class="d-flex gap-1">
+                        <a href="{{ url_for('download_report', id=inc.id) }}" class="btn btn-sm btn-outline-primary py-0 px-2" title="Download PDF">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </a>
+                        <a href="{{ url_for('result', id=inc.id) }}" class="btn btn-sm btn-outline-secondary py-0 px-2 text-light" title="View Details">
+                            <i class="fa-solid fa-eye"></i>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-muted small mb-0">No incidents recorded yet. Use the form to file your first incident report.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

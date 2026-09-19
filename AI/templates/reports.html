@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}My Reports — SCAMSHIELD AI{% endblock %}
+
+{% block content %}
+<div class="my-4 d-flex align-items-center justify-content-between flex-wrap gap-2">
+    <div>
+        <h1 class="text-white fw-bold mb-1">
+            <i class="fa-solid fa-file-invoice me-2 text-info"></i>My Analysis Reports
+        </h1>
+        <p class="text-muted mb-0">All your scam analysis records in one place.</p>
+    </div>
+    <a href="{{ url_for('analyze') }}" class="btn-custom btn-primary-glow">
+        <i class="fa-solid fa-plus me-2"></i>New Analysis
+    </a>
+</div>
+
+<div class="glass-card">
+    {% if reports %}
+    <div class="table-responsive">
+        <table class="table table-dark table-hover align-middle mb-0">
+            <thead>
+                <tr class="text-muted small">
+                    <th>#</th>
+                    <th>Message Preview</th>
+                    <th>Scam Type</th>
+                    <th>Risk Level</th>
+                    <th>Language</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in reports %}
+                <tr>
+                    <td class="text-muted small">{{ r.id }}</td>
+                    <td class="text-light small font-monospace" style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                        {{ r.message_text[:70] }}{% if r.message_text|length > 70 %}…{% endif %}
+                    </td>
+                    <td><span class="badge bg-secondary">{{ r.scam_type }}</span></td>
+                    <td>
+                        {% if r.risk_level | upper == 'HIGH' %}
+                            <span class="badge bg-danger">🔴 HIGH</span>
+                        {% elif r.risk_level | upper == 'SUSPICIOUS' %}
+                            <span class="badge bg-warning text-dark">🟡 SUSPICIOUS</span>
+                        {% else %}
+                            <span class="badge bg-success">🟢 LOW</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-muted small">{{ r.language | upper }}</td>
+                    <td class="text-muted small">{{ r.created_at[:10] if r.created_at else '—' }}</td>
+                    <td>
+                        <div class="d-flex gap-1">
+                            <a href="{{ url_for('result', id=r.id) }}" class="btn btn-sm btn-outline-primary" title="View Report">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                            <a href="{{ url_for('download_report', id=r.id) }}" class="btn btn-sm btn-outline-info" title="Download PDF">
+                                <i class="fa-solid fa-file-pdf"></i>
+                            </a>
+                            <form method="POST" action="{{ url_for('delete_report_route', id=r.id) }}"
+                                  onsubmit="return confirm('Delete this report?');" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fa-solid fa-folder-open fa-3x text-muted mb-3"></i>
+        <h5 class="text-white fw-bold">No Reports Yet</h5>
+        <p class="text-muted mb-4">Start by analyzing a suspicious message to generate your first report.</p>
+        <a href="{{ url_for('analyze') }}" class="btn-custom btn-primary-glow">
+            <i class="fa-solid fa-magnifying-glass me-2"></i>Analyze a Message
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

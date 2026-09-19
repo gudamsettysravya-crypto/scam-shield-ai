@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+
+{% block title %}Link Safety Analysis — SCAMSHIELD AI{% endblock %}
+
+{% block content %}
+<div class="my-3 d-flex align-items-center gap-2">
+    <a href="{{ url_for('threat_protection') }}" class="btn btn-sm btn-outline-secondary text-light">
+        <i class="fa-solid fa-arrow-left me-1"></i> Threat Protection
+    </a>
+    <span class="text-muted small">/ Link Safety Analysis</span>
+</div>
+
+<div class="my-3">
+    <h1 class="text-white fw-bold mb-1">
+        <i class="fa-solid fa-link me-2 text-warning"></i>Link Safety Analysis
+    </h1>
+    <p class="text-secondary">
+        Analyze external web links, SMS URLs, shortened redirects, and suspicious domain names before clicking. Detects credential harvesters, unencrypted endpoints, lookalike domains, and phishing gateways.
+    </p>
+</div>
+
+<div class="row g-4">
+    <!-- Left Column: Input Form -->
+    <div class="col-lg-6">
+        <div class="glass-card mb-4 border-glow">
+            <h5 class="text-white fw-bold mb-3">
+                <i class="fa-solid fa-magnifying-glass me-2 text-warning"></i>Inspect a Suspicious Link
+            </h5>
+
+            <form method="POST" action="{{ url_for('threat_link_safety') }}" id="urlForm">
+                <div class="mb-3">
+                    <label for="urlInput" class="form-label text-secondary">Enter or Paste Web Link / URL</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-dark border-secondary text-secondary"><i class="fa-solid fa-globe"></i></span>
+                        <input type="text" id="urlInput" name="url" class="form-control bg-dark text-white border-secondary"
+                               placeholder="e.g. http://sbi-secure-update.xyz/login or bit.ly/prize2026"
+                               value="{{ analyzed_url or '' }}" required autofocus>
+                    </div>
+                    <div class="form-text text-muted">Supports full links (https://...), plain domains (example.com), and shortened URLs.</div>
+                </div>
+
+                <!-- Sample Presets -->
+                <div class="mb-3">
+                    <label class="form-label text-secondary small mb-1">Try a preset test URL:</label>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button type="button" class="btn btn-sm btn-outline-danger sample-url-btn"
+                                data-url="http://192.168.1.55/sbi/netbanking-login.php">
+                            Raw IP Phishing
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-warning sample-url-btn"
+                                data-url="http://tata-lottery-winner.xyz/claim-reward">
+                            Suspicious .XYZ Domain
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-info sample-url-btn"
+                                data-url="http://bit.ly/claim-urgent-refund-now">
+                            Shortened URL Redirect
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-success sample-url-btn"
+                                data-url="https://www.onlinesbi.sbi/">
+                            Official HTTPS Bank
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-custom btn-primary-glow w-100">
+                    <i class="fa-solid fa-shield-virus me-2"></i> Run Deep Link Safety Inspection
+                </button>
+            </form>
+        </div>
+
+        <!-- URL Anatomy Guide -->
+        <div class="glass-card mb-4">
+            <h6 class="text-white fw-bold mb-3">
+                <i class="fa-solid fa-circle-nodes me-2 text-info"></i>How Scammers Disguise URLs
+            </h6>
+            <div class="d-flex flex-column gap-2 text-secondary small">
+                <div class="p-2 rounded bg-dark border border-secondary border-opacity-25">
+                    <strong class="text-danger d-block">1. Typo-Squatting / Lookalikes</strong>
+                    Replacing letters with similar characters, e.g. <code class="text-light">amaz0n.com</code> or <code class="text-light">sbi-update.site</code>.
+                </div>
+                <div class="p-2 rounded bg-dark border border-secondary border-opacity-25">
+                    <strong class="text-warning d-block">2. Subdomain Deception</strong>
+                    Placing the brand name as a prefix, e.g. <code class="text-light">sbi.com.attacker-domain.xyz</code>.
+                </div>
+                <div class="p-2 rounded bg-dark border border-secondary border-opacity-25">
+                    <strong class="text-info d-block">3. Unencrypted HTTP</strong>
+                    Legitimate banking and payment portals ALWAYS use SSL (HTTPS) with a verified certificate.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Column: Inspection Results -->
+    <div class="col-lg-6">
+        {% if result %}
+        <div class="glass-card mb-4 border-glow">
+            <!-- Header Status -->
+            <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom border-secondary border-opacity-25">
+                <h5 class="text-white fw-bold mb-0">
+                    <i class="fa-solid fa-clipboard-check me-2 text-primary"></i>Link Safety Assessment
+                </h5>
+                {% if result.risk_status == 'HIGH RISK' %}
+                    <span class="badge bg-danger px-3 py-2 fs-6"><i class="fa-solid fa-triangle-exclamation me-1"></i> HIGH RISK</span>
+                {% elif result.risk_status == 'SUSPICIOUS' %}
+                    <span class="badge bg-warning text-dark px-3 py-2 fs-6"><i class="fa-solid fa-circle-exclamation me-1"></i> SUSPICIOUS</span>
+                {% else %}
+                    <span class="badge bg-success px-3 py-2 fs-6"><i class="fa-solid fa-circle-check me-1"></i> LOW RISK / SAFE</span>
+                {% endif %}
+            </div>
+
+            <!-- Tested URL -->
+            <div class="mb-3">
+                <span class="text-muted small d-block">Evaluated Web Address:</span>
+                <span class="font-monospace small text-warning bg-dark p-2 rounded d-block text-break border border-secondary border-opacity-25">
+                    {{ result.url }}
+                </span>
+            </div>
+
+            <!-- URL Risk Status -->
+            <div class="mb-3">
+                <h6 class="text-white fw-semibold small mb-1"><i class="fa-solid fa-gauge-high me-1 text-primary"></i> URL Risk Status:</h6>
+                <p class="text-light fw-bold mb-0">{{ result.risk_status }}</p>
+            </div>
+
+            <!-- Explanation -->
+            <div class="mb-3">
+                <h6 class="text-white fw-semibold small mb-1"><i class="fa-solid fa-circle-info me-1 text-info"></i> Explanation:</h6>
+                <p class="text-secondary small mb-0" style="line-height:1.65;">{{ result.explanation }}</p>
+            </div>
+
+            <!-- Suspicious Indicators -->
+            <div class="mb-3">
+                <h6 class="text-white fw-semibold small mb-1"><i class="fa-solid fa-triangle-exclamation me-1 text-danger"></i> Suspicious Indicators:</h6>
+                <ul class="list-unstyled mb-0">
+                    {% for ind in result.indicators %}
+                    <li class="text-secondary small mb-1 d-flex align-items-start gap-2">
+                        <i class="fa-solid fa-circle-xmark text-danger mt-1 flex-shrink-0"></i>
+                        <span>{{ ind }}</span>
+                    </li>
+                    {% else %}
+                    <li class="text-secondary small">No structural anomalies detected.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Safety Recommendations -->
+            <div class="mb-3">
+                <h6 class="text-white fw-semibold small mb-1"><i class="fa-solid fa-shield-halved me-1 text-success"></i> Safety Recommendations:</h6>
+                <ul class="list-unstyled mb-0">
+                    {% for rec in result.recommendations %}
+                    <li class="text-secondary small mb-1 d-flex align-items-start gap-2">
+                        <i class="fa-solid fa-check text-success mt-1 flex-shrink-0"></i>
+                        <span>{{ rec }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- What User Should Do Next -->
+            <div class="mb-4">
+                <h6 class="text-white fw-semibold small mb-1"><i class="fa-solid fa-list-check me-1 text-warning"></i> What You Should Do Next:</h6>
+                <ol class="text-secondary small ps-3 mb-0" style="line-height:1.7;">
+                    {% for step in result.next_steps %}
+                    <li>{{ step }}</li>
+                    {% endfor %}
+                </ol>
+            </div>
+
+            <div class="d-flex gap-2">
+                <a href="{{ url_for('threat_link_safety') }}" class="btn btn-outline-secondary text-light btn-sm">
+                    <i class="fa-solid fa-rotate-left me-1"></i> Inspect Another Link
+                </a>
+                <a href="{{ url_for('analyze') }}" class="btn-custom btn-primary-glow btn-sm">
+                    <i class="fa-solid fa-message me-1"></i> Check Accompanying Message
+                </a>
+            </div>
+        </div>
+        {% else %}
+        <!-- Guide placeholder -->
+        <div class="glass-card mb-4">
+            <h5 class="text-white fw-bold mb-3">
+                <i class="fa-solid fa-shield-halved me-2 text-warning"></i>Why Inspect Links First?
+            </h5>
+            <p class="text-secondary small mb-3">
+                Clicking a single malicious link can automatically download credential-stealing spyware, expose your session cookies, or trick you into entering your net-banking password on a clone page.
+            </p>
+            <div class="p-3 rounded mb-2" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);">
+                <strong class="text-danger small d-block mb-1"><i class="fa-solid fa-ban me-1"></i> Never Enter OTPs on Unverified URLs</strong>
+                <p class="text-muted small mb-0">No bank or UPI app will ever direct you to an external website to input your secret OTP or 6-digit UPI PIN.</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const urlInput = document.getElementById('urlInput');
+    document.querySelectorAll('.sample-url-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            urlInput.value = btn.getAttribute('data-url');
+            urlInput.focus();
+        });
+    });
+});
+</script>
+{% endblock %}

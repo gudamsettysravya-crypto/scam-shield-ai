@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ scam.emoji }} {{ scam.title }} — SCAMSHIELD AI Awareness{% endblock %}
+
+{% block content %}
+
+<!-- Breadcrumb / Back -->
+<div class="my-3 d-flex align-items-center gap-2">
+    <a href="{{ url_for('awareness') }}" class="btn btn-sm btn-outline-secondary text-light">
+        <i class="fa-solid fa-arrow-left me-1"></i> Awareness Center
+    </a>
+    <span class="text-muted small">/ {{ scam.title }}</span>
+</div>
+
+<!-- Hero Banner -->
+<div class="glass-card mb-4 border-glow" style="position:relative;overflow:hidden;">
+    <div style="position:absolute;right:-1.5rem;top:50%;transform:translateY(-50%);font-size:9rem;opacity:0.04;pointer-events:none;">
+        <i class="fa-solid {{ scam.icon }}"></i>
+    </div>
+    <div class="row align-items-center g-4">
+        <div class="col-md-2 text-center">
+            <div class="stat-icon {{ scam.icon_color }} mx-auto"
+                 style="width:80px;height:80px;font-size:2.5rem;background:rgba(255,255,255,0.05);border-radius:20px;box-shadow:0 0 30px rgba(56,189,248,0.15);">
+                <i class="fa-solid {{ scam.icon }}"></i>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="mb-2">
+                <span class="badge bg-{{ scam.badge_color }} bg-opacity-25 text-{{ scam.badge_color }} border border-{{ scam.badge_color }} border-opacity-25 px-3 py-1 rounded-pill">
+                    Scam Awareness Guide
+                </span>
+            </div>
+            <h1 class="text-white fw-bold mb-2" style="font-size:1.9rem;">{{ scam.emoji }} {{ scam.title }}</h1>
+            <p class="text-{{ scam.badge_color }} fw-semibold mb-0" style="font-size:1.05rem;">
+                <i class="fa-solid fa-shield-halved me-2"></i>{{ scam.tagline }}
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- 1. SCAM IMAGE -->
+<div class="glass-card mb-4 p-2 overflow-hidden text-center border-glow">
+    <img src="{{ url_for('static', filename='images/' + scam.image) }}"
+         alt="{{ scam.title }} illustration"
+         class="img-fluid w-100 rounded-3"
+         style="max-height:360px;object-fit:cover;border:1px solid rgba(255,255,255,0.08);box-shadow:0 8px 32px rgba(0,0,0,0.5);">
+</div>
+
+<div class="row g-4">
+
+    <!-- LEFT COLUMN -->
+    <div class="col-lg-8">
+
+        <!-- 2. WHAT IS IT? -->
+        <div class="glass-card mb-4">
+            <h5 class="text-white fw-bold mb-3">
+                <i class="fa-solid fa-circle-info me-2 text-primary"></i>What is it?
+            </h5>
+            <p class="text-light mb-0" style="line-height:1.75;font-size:1.02rem;">
+                {{ scam.description }}
+            </p>
+        </div>
+
+        <!-- 5. WARNING SIGNS TO WATCH FOR -->
+        <div class="glass-card mb-4" style="border-left:4px solid var(--risk-high-border);">
+            <h5 class="text-white fw-bold mb-3">
+                <i class="fa-solid fa-triangle-exclamation me-2 text-danger"></i>Warning Signs to Watch For
+            </h5>
+            <p class="text-secondary small mb-3">Key red flags that reveal this communication is a fraud attempt:</p>
+            <div class="row g-2">
+                {% for sign in scam.warning_signs %}
+                <div class="col-12">
+                    <div class="d-flex align-items-start gap-3 p-3 rounded-2"
+                         style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2);">
+                        <i class="fa-solid fa-circle-xmark text-danger flex-shrink-0 mt-1"></i>
+                        <span class="text-light small">{{ sign }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- 6. REAL-WORLD EXAMPLES -->
+        <div class="glass-card mb-4">
+            <h5 class="text-white fw-bold mb-3">
+                <i class="fa-solid fa-comment-dots me-2 text-warning"></i>Real-World Examples
+            </h5>
+            <p class="text-secondary small mb-3">Realistic examples of messages and scenarios used by scammers:</p>
+            <div class="d-flex flex-column gap-3">
+                {% for example in scam.examples %}
+                <div class="bg-dark bg-opacity-75 border border-secondary border-opacity-25 rounded-3 p-3">
+                    <div class="d-flex gap-2 align-items-start">
+                        <i class="fa-solid fa-quote-left text-{{ scam.badge_color }} opacity-75 mt-1 flex-shrink-0"></i>
+                        <p class="text-light small font-monospace mb-0" style="line-height:1.65;">{{ example }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="col-lg-4">
+
+        <!-- 3. DID YOU KNOW? (Visually Distinct Card Dashboard) -->
+        <div class="glass-card mb-4 p-4 border-glow"
+             style="background:linear-gradient(135deg, rgba(30,41,69,0.9) 0%, rgba(15,23,42,0.95) 100%);border-top:3px solid var(--accent-blue);">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="stat-icon text-info mb-0" style="width:36px;height:36px;font-size:1rem;background:rgba(56,189,248,0.15);">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <div>
+                    <h6 class="text-white fw-bold mb-0">Did You Know?</h6>
+                    <span class="text-info small text-uppercase" style="font-size:0.7rem;letter-spacing:1px;">Fact Dashboard</span>
+                </div>
+            </div>
+
+            {% if scam.facts %}
+            <div class="d-flex flex-column gap-2">
+                {% for f in scam.facts %}
+                <div class="p-2 rounded bg-dark bg-opacity-50 border border-secondary border-opacity-25 text-secondary small" style="line-height:1.6;">
+                    <i class="fa-solid fa-lightbulb text-warning me-2"></i>{{ f }}
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-secondary small mb-0" style="line-height:1.65;">
+                <i class="fa-solid fa-lightbulb text-warning me-2"></i>{{ scam.fact }}
+            </p>
+            {% endif %}
+        </div>
+
+        <!-- 4. WHAT SHOULD YOU DO? -->
+        <div class="glass-card mb-4" style="border-left:4px solid var(--risk-low-border);">
+            <h6 class="text-white fw-bold mb-3">
+                <i class="fa-solid fa-shield-halved me-2 text-success"></i>What Should You Do?
+            </h6>
+            <ol class="text-secondary small ps-3 mb-0" style="line-height:1.85;">
+                {% for step in scam.what_to_do %}
+                <li class="mb-2"><strong>{{ step }}</strong></li>
+                {% endfor %}
+            </ol>
+        </div>
+
+        <!-- Emergency Helplines -->
+        <div class="glass-card mb-4">
+            <h6 class="text-white fw-bold mb-3">
+                <i class="fa-solid fa-phone-volume me-2 text-primary"></i>Report & Get Help
+            </h6>
+            <ul class="list-unstyled text-secondary small mb-0" style="line-height:1.8;">
+                <li class="mb-2 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-globe text-primary"></i>
+                    <a href="https://cybercrime.gov.in" target="_blank" rel="noopener" class="text-primary fw-semibold">cybercrime.gov.in</a>
+                </li>
+                <li class="mb-2 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-phone text-success"></i>
+                    <span>National Helpline: <strong class="text-white">1930</strong></span>
+                </li>
+                <li class="d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-building-columns text-warning"></i>
+                    <span>RBI Helpline: <strong class="text-white">14440</strong></span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Analyze CTA -->
+        <div class="glass-card text-center border-glow">
+            <i class="fa-solid fa-magnifying-glass fa-2x text-primary mb-2"></i>
+            <h6 class="text-white fw-bold mb-2">Check a suspicious message?</h6>
+            <p class="text-secondary small mb-3">Test messages with ScamShield AI's free multi-agent analyzer.</p>
+            <a href="{{ url_for('analyze') if session.get('user_id') else url_for('login') }}"
+               class="btn-custom btn-primary-glow w-100 text-center">
+                <i class="fa-solid fa-robot me-2"></i>Analyze Message Now
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<!-- Bottom navigation -->
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-3 my-4 pt-2 border-top border-secondary border-opacity-25">
+    <a href="{{ url_for('awareness') }}" class="btn btn-outline-secondary text-light">
+        <i class="fa-solid fa-arrow-left me-2"></i>Back to Awareness Center
+    </a>
+    <a href="{{ url_for('analyze') if session.get('user_id') else url_for('login') }}"
+       class="btn-custom btn-primary-glow">
+        <i class="fa-solid fa-magnifying-glass me-2"></i>Analyze a Suspicious Message
+    </a>
+</div>
+
+{% endblock %}

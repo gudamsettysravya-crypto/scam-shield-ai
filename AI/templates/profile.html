@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}My Profile — SCAMSHIELD AI{% endblock %}
+
+{% block content %}
+<div class="my-4">
+    <h1 class="text-white fw-bold mb-1">
+        <i class="fa-solid fa-user-circle me-2 text-primary"></i>My Profile
+    </h1>
+    <p class="text-muted">Manage your account details and change your password.</p>
+</div>
+
+<div class="row g-4">
+    <!-- Stats Summary -->
+    <div class="col-lg-4">
+        <div class="glass-card text-center mb-4">
+            <div class="brand-shield-icon mx-auto mb-3" style="width:70px;height:70px;font-size:2rem;">
+                <i class="fa-solid fa-user text-white"></i>
+            </div>
+            <h5 class="text-white fw-bold mb-1">{{ user.full_name }}</h5>
+            <p class="text-muted small mb-3">{{ user.email }}</p>
+            <p class="text-muted small mb-0">Member since {{ user.created_at[:10] if user.created_at else '—' }}</p>
+        </div>
+        <div class="glass-card">
+            <h6 class="text-white fw-bold mb-3"><i class="fa-solid fa-chart-bar me-2 text-primary"></i>Your Stats</h6>
+            <ul class="list-unstyled mb-0">
+                <li class="d-flex justify-content-between text-muted small mb-2">
+                    <span>Total Analyses</span><strong class="text-white">{{ stats.total }}</strong>
+                </li>
+                <li class="d-flex justify-content-between text-muted small mb-2">
+                    <span>High Risk Detected</span><strong class="text-danger">{{ stats.high }}</strong>
+                </li>
+                <li class="d-flex justify-content-between text-muted small mb-2">
+                    <span>Suspicious</span><strong class="text-warning">{{ stats.suspicious }}</strong>
+                </li>
+                <li class="d-flex justify-content-between text-muted small">
+                    <span>Low Risk / Safe</span><strong class="text-success">{{ stats.low }}</strong>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Account Settings -->
+    <div class="col-lg-8">
+        <!-- Update Name -->
+        <div class="glass-card mb-4">
+            <h6 class="text-white fw-bold mb-3"><i class="fa-solid fa-pen me-2 text-info"></i>Update Display Name</h6>
+            <form method="POST" action="{{ url_for('profile') }}">
+                <input type="hidden" name="action" value="update_name">
+                <div class="mb-3">
+                    <label for="full_name" class="form-label text-secondary">Full Name</label>
+                    <input type="text" id="full_name" name="full_name"
+                           class="form-control bg-dark text-white border-secondary"
+                           value="{{ user.full_name }}" required>
+                </div>
+                <button type="submit" class="btn-custom btn-primary-glow">
+                    <i class="fa-solid fa-floppy-disk me-2"></i>Save Name
+                </button>
+            </form>
+        </div>
+
+        <!-- Change Password -->
+        <div class="glass-card">
+            <h6 class="text-white fw-bold mb-3"><i class="fa-solid fa-lock me-2 text-warning"></i>Change Password</h6>
+            <form method="POST" action="{{ url_for('profile') }}">
+                <input type="hidden" name="action" value="change_password">
+                <div class="mb-3">
+                    <label for="old_password" class="form-label text-secondary">Current Password</label>
+                    <input type="password" id="old_password" name="old_password"
+                           class="form-control bg-dark text-white border-secondary"
+                           placeholder="Enter current password" required autocomplete="current-password">
+                </div>
+                <div class="mb-3">
+                    <label for="new_password" class="form-label text-secondary">New Password</label>
+                    <input type="password" id="new_password" name="new_password"
+                           class="form-control bg-dark text-white border-secondary"
+                           placeholder="Min 6 characters" required autocomplete="new-password">
+                </div>
+                <div class="mb-4">
+                    <label for="confirm_password" class="form-label text-secondary">Confirm New Password</label>
+                    <input type="password" id="confirm_password" name="confirm_password"
+                           class="form-control bg-dark text-white border-secondary"
+                           placeholder="Repeat new password" required autocomplete="new-password">
+                </div>
+                <button type="submit" class="btn btn-outline-warning">
+                    <i class="fa-solid fa-key me-2"></i>Change Password
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

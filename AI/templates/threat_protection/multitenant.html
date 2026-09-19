@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block title %}Multi-Tenant Architecture — SCAMSHIELD AI{% endblock %}
+
+{% block content %}
+<div class="my-3 d-flex align-items-center gap-2">
+    <a href="{{ url_for('threat_protection') }}" class="btn btn-sm btn-outline-secondary text-light">
+        <i class="fa-solid fa-arrow-left me-1"></i> Threat Protection
+    </a>
+    <span class="text-muted small">/ Multi-Tenant Support</span>
+</div>
+
+<div class="my-3 text-center">
+    <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2"
+         style="background:rgba(168,85,247,0.15);border:1px solid rgba(168,85,247,0.3);color:#c084fc;">
+        <i class="fa-solid fa-users-gear"></i>
+        <span class="small fw-semibold">Enterprise Architecture</span>
+    </div>
+    <h1 class="text-white fw-bold mb-2">Multi-Tenant & Multi-User Architecture</h1>
+    <p class="text-secondary mx-auto" style="max-width:720px;">
+        ScamShield AI is built from the ground up to support isolated multi-tenant workspaces, strict cryptographic user boundaries, and zero-leakage privacy for individuals and enterprise teams.
+    </p>
+</div>
+
+<!-- Active Tenant Session Card -->
+<div class="glass-card mb-4 p-4 border-glow">
+    <div class="row align-items-center g-3">
+        <div class="col-md-8">
+            <div class="d-flex align-items-center gap-3">
+                <div class="stat-icon mb-0" style="width:50px;height:50px;font-size:1.5rem;background:rgba(168,85,247,0.2);color:#c084fc;">
+                    <i class="fa-solid fa-building-user"></i>
+                </div>
+                <div>
+                    <h5 class="text-white fw-bold mb-1">Active Tenant Session Verification</h5>
+                    <p class="text-muted small mb-0">
+                        Authenticated as: <strong class="text-white">{{ session.get('user_name', 'Guest / Public User') }}</strong>
+                        {% if session.get('user_id') %}
+                        • Tenant ID: <span class="badge bg-purple font-monospace" style="background:#7c3aed;">USR-{{ "%04d"|format(session.get('user_id')) }}</span>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 px-3 py-2 fs-6">
+                <i class="fa-solid fa-circle-check me-1"></i> Data Boundary Isolated
+            </span>
+        </div>
+    </div>
+</div>
+
+<!-- 4 Pillars of Multi-Tenant Security -->
+<div class="row g-4 my-2">
+
+    <!-- Pillar 1 -->
+    <div class="col-md-6">
+        <div class="glass-card h-100 p-4">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="stat-icon text-primary mb-0" style="width:40px;height:40px;font-size:1.1rem;">
+                    <i class="fa-solid fa-database"></i>
+                </div>
+                <h5 class="text-white fw-bold mb-0">Strict Row-Level Data Isolation</h5>
+            </div>
+            <p class="text-secondary small mb-3">
+                Every analysis, uploaded screenshot, and generated PDF report is tagged with the tenant's cryptographic user ID.
+            </p>
+            <ul class="list-unstyled text-secondary small mb-0" style="line-height:1.75;">
+                <li class="mb-2"><i class="fa-solid fa-shield text-primary me-2"></i><strong>Query-level filtering:</strong> All database queries enforce strict <code>WHERE user_id = ?</code> clauses at the database driver layer.</li>
+                <li class="mb-2"><i class="fa-solid fa-lock text-success me-2"></i><strong>Zero Cross-Tenant Leakage:</strong> User A can never query, read, edit, or download User B's incident reports, even if manipulating URL parameters.</li>
+                <li class="mb-0"><i class="fa-solid fa-trash-can text-danger me-2"></i><strong>Cascading Data Erasure:</strong> When a user removes a report or closes an account, their records are purged cleanly without remnants.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Pillar 2 -->
+    <div class="col-md-6">
+        <div class="glass-card h-100 p-4">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="stat-icon text-info mb-0" style="width:40px;height:40px;font-size:1.1rem;">
+                    <i class="fa-solid fa-key"></i>
+                </div>
+                <h5 class="text-white fw-bold mb-0">Cryptographic Authentication & Secrets</h5>
+            </div>
+            <p class="text-secondary small mb-3">
+                Industry-standard cryptographic primitives secure each tenant's credentials and session tokens.
+            </p>
+            <ul class="list-unstyled text-secondary small mb-0" style="line-height:1.75;">
+                <li class="mb-2"><i class="fa-solid fa-check text-info me-2"></i><strong>Salted Password Hashes:</strong> User credentials are protected using Werkzeug scrypt/PBKDF2 hashing algorithms with high work factors.</li>
+                <li class="mb-2"><i class="fa-solid fa-cookie-bite text-warning me-2"></i><strong>Secure Session Tokens:</strong> HTTPOnly, SameSite cookie policies prevent cross-site request forgery and cookie theft.</li>
+                <li class="mb-0"><i class="fa-solid fa-user-shield text-success me-2"></i><strong>Privilege Separation:</strong> Tenant session state is kept separate from backend AI model execution buffers.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Pillar 3 -->
+    <div class="col-md-6">
+        <div class="glass-card h-100 p-4">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="stat-icon text-warning mb-0" style="width:40px;height:40px;font-size:1.1rem;">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <h5 class="text-white fw-bold mb-0">Anonymized Threat Intelligence Sharing</h5>
+            </div>
+            <p class="text-secondary small mb-3">
+                Scam patterns are aggregated across tenants for community defense without exposing personal identity or raw message contents.
+            </p>
+            <ul class="list-unstyled text-secondary small mb-0" style="line-height:1.75;">
+                <li class="mb-2"><i class="fa-solid fa-check text-warning me-2"></i><strong>Differential Privacy:</strong> Only high-level category counts (e.g. "UPI scams up 14%") feed into the community trends dashboard.</li>
+                <li class="mb-2"><i class="fa-solid fa-user-xmark text-danger me-2"></i><strong>PII Stripping:</strong> Phone numbers, names, and personal identifiers are never included in aggregated metrics.</li>
+                <li class="mb-0"><i class="fa-solid fa-network-wired text-info me-2"></i><strong>Collective Immunity:</strong> Emerging scam variants detected in one tenant improve detection heuristics across the entire platform.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Pillar 4 -->
+    <div class="col-md-6">
+        <div class="glass-card h-100 p-4">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="stat-icon mb-0" style="width:40px;height:40px;font-size:1.1rem;color:#a855f7;">
+                    <i class="fa-solid fa-sitemap"></i>
+                </div>
+                <h5 class="text-white fw-bold mb-0">Enterprise & Organization Ready</h5>
+            </div>
+            <p class="text-secondary small mb-3">
+                Designed for corporate cybersecurity teams, universities, and banking customer support operations.
+            </p>
+            <ul class="list-unstyled text-secondary small mb-0" style="line-height:1.75;">
+                <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i><strong>Departmental Sandboxing:</strong> Support for organizational teams to manage fraud tickets collaboratively.</li>
+                <li class="mb-2"><i class="fa-solid fa-file-contract text-primary me-2"></i><strong>Forensic Audit Trails:</strong> Timestamped PDF reports ready for submission to law enforcement or legal teams.</li>
+                <li class="mb-0"><i class="fa-solid fa-scale-balanced text-info me-2"></i><strong>Regulatory Alignment:</strong> Compliant with Digital Personal Data Protection (DPDP) principles.</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<!-- Navigation Back -->
+<div class="text-center my-4">
+    <a href="{{ url_for('threat_protection') }}" class="btn btn-outline-secondary text-light me-2">
+        <i class="fa-solid fa-arrow-left me-1"></i> Threat Protection Suite
+    </a>
+    <a href="{{ url_for('dashboard') }}" class="btn-custom btn-primary-glow">
+        <i class="fa-solid fa-chart-pie me-1"></i> Go to Dashboard
+    </a>
+</div>
+{% endblock %}

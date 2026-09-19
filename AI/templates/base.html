@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SCAMSHIELD AI — AI-Powered Digital Scam Detection & Safety Agent{% endblock %}</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom Theme CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <nav class="navbar-custom">
+        <div class="app-container">
+            <div class="nav-wrapper">
+                <a href="{{ url_for('index') }}" class="brand-logo">
+                    <div class="brand-shield-icon">
+                        <i class="fa-solid fa-shield-halved text-white"></i>
+                    </div>
+                    <span>SCAMSHIELD <span class="brand-highlight">AI</span></span>
+                </a>
+
+                <ul class="nav-links">
+                    {% if session.get('user_id') %}
+                        <li><a href="{{ url_for('dashboard') }}" class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}"><i class="fa-solid fa-chart-pie me-1"></i> Dashboard</a></li>
+                        <li><a href="{{ url_for('threat_protection') }}" class="nav-link {% if 'threat' in request.endpoint %}active{% endif %}"><i class="fa-solid fa-shield-halved me-1"></i> Threat Protection</a></li>
+                        <li><a href="{{ url_for('analyze') }}" class="nav-link nav-btn-primary {% if request.endpoint == 'analyze' %}active{% endif %}"><i class="fa-solid fa-magnifying-glass me-1"></i> Analyze Message</a></li>
+                        <li><a href="{{ url_for('awareness') }}" class="nav-link {% if request.endpoint == 'awareness' or request.endpoint == 'awareness_detail' %}active{% endif %}"><i class="fa-solid fa-graduation-cap me-1"></i> Awareness Center</a></li>
+                        <li><a href="{{ url_for('reports') }}" class="nav-link {% if request.endpoint == 'reports' %}active{% endif %}"><i class="fa-solid fa-file-invoice me-1"></i> My Reports</a></li>
+                        <li><a href="{{ url_for('profile') }}" class="nav-link {% if request.endpoint == 'profile' %}active{% endif %}"><i class="fa-solid fa-user me-1"></i> Profile</a></li>
+                        <li><a href="{{ url_for('logout') }}" class="nav-link text-danger"><i class="fa-solid fa-right-from-bracket me-1"></i> Logout</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('threat_protection') }}" class="nav-link {% if 'threat' in request.endpoint %}active{% endif %}"><i class="fa-solid fa-shield-halved me-1"></i> Threat Protection</a></li>
+                        <li><a href="{{ url_for('awareness') }}" class="nav-link {% if request.endpoint == 'awareness' or request.endpoint == 'awareness_detail' %}active{% endif %}"><i class="fa-solid fa-graduation-cap me-1"></i> Awareness Center</a></li>
+                        <li><a href="{{ url_for('login') }}" class="nav-link"><i class="fa-solid fa-right-to-bracket me-1"></i> Login</a></li>
+                        <li><a href="{{ url_for('register') }}" class="nav-link nav-btn-primary"><i class="fa-solid fa-user-plus me-1"></i> Register</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <div class="app-container">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert-custom alert-{{ category }} alert-dismissible fade show" role="alert">
+                            <div>
+                                {% if category == 'success' %}<i class="fa-solid fa-circle-check me-2"></i>{% endif %}
+                                {% if category == 'danger' %}<i class="fa-solid fa-triangle-exclamation me-2"></i>{% endif %}
+                                {% if category == 'warning' %}<i class="fa-solid fa-circle-exclamation me-2"></i>{% endif %}
+                                {% if category == 'info' %}<i class="fa-solid fa-circle-info me-2"></i>{% endif %}
+                                {{ message }}
+                            </div>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-custom">
+        <div class="app-container">
+            <p class="mb-2"><strong>SCAMSHIELD AI</strong> &copy; 2026 — AI-Powered Digital Scam Detection & Safety Agent</p>
+            <p class="text-muted small">
+                <strong>Disclaimer:</strong> SCAMSHIELD AI provides informational risk assessments and safety guidance based on detected communication indicators. It does not replace official fraud investigations, financial institutions, law enforcement, or professional legal advice.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

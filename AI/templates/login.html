@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Login — SCAMSHIELD AI{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-5">
+    <div class="col-md-6 col-lg-5">
+        <div class="glass-card p-4">
+            <div class="text-center mb-4">
+                <div class="brand-shield-icon mx-auto mb-3" style="width:60px;height:60px;font-size:1.6rem;">
+                    <i class="fa-solid fa-right-to-bracket text-white"></i>
+                </div>
+                <h2 class="text-white fw-bold mb-1">Welcome Back</h2>
+                <p class="text-muted small">Sign in to access your scam analysis dashboard</p>
+            </div>
+
+            <form method="POST" action="{{ url_for('login') }}" novalidate>
+                <div class="mb-3">
+                    <label for="email" class="form-label text-secondary">Email Address</label>
+                    <input type="email" id="email" name="email" class="form-control bg-dark text-white border-secondary"
+                           placeholder="you@email.com" required autocomplete="email">
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="form-label text-secondary">Password</label>
+                    <input type="password" id="password" name="password" class="form-control bg-dark text-white border-secondary"
+                           placeholder="Your password" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn-custom btn-primary-glow w-100">
+                    <i class="fa-solid fa-right-to-bracket me-2"></i> Sign In
+                </button>
+            </form>
+
+            <hr class="border-secondary my-4">
+            <p class="text-center text-muted small mb-0">
+                Don't have an account?
+                <a href="{{ url_for('register') }}" class="text-primary">Register here</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

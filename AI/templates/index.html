@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block title %}SCAMSHIELD AI — Digital Scam Detection & Safety Agent{% endblock %}
+
+{% block content %}
+<div class="row align-items-center my-5">
+    <div class="col-lg-7 mb-4 mb-lg-0">
+        <span class="badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25 px-3 py-2 rounded-pill mb-3">
+            <i class="fa-solid fa-shield-virus me-2"></i> Next-Gen AI Safety Platform
+        </span>
+        <h1 class="display-4 fw-extrabold text-white mb-3" style="letter-spacing: -0.03em; line-height: 1.15;">
+            Detect Suspicious Messages. <br/>
+            <span class="brand-highlight">Understand the Risk.</span> <br/>
+            Know What to Do Next.
+        </h1>
+        <p class="lead text-secondary mb-4" style="max-width: 600px;">
+            SCAMSHIELD AI empowers you to analyze suspicious SMS, WhatsApp messages, emails, payment requests, job offers, and URLs using multi-agent Gemini AI reasoning and link security forensics.
+        </p>
+        <div class="d-flex flex-wrap gap-3">
+            <a href="{{ url_for('login') if not session.get('user_id') else url_for('analyze') }}" class="btn-custom btn-primary-glow btn-lg">
+                <i class="fa-solid fa-magnifying-glass me-2"></i> Analyze a Message
+            </a>
+            <a href="{{ url_for('awareness') }}" class="btn-custom btn-secondary-outline btn-lg">
+                <i class="fa-solid fa-book-open me-2"></i> Learn About Scams
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="glass-card text-center p-4 border-glow">
+            <div class="brand-shield-icon mx-auto mb-3" style="width: 70px; height: 70px; font-size: 2rem;">
+                <i class="fa-solid fa-shield-halved text-white"></i>
+            </div>
+            <h4 class="text-white fw-bold mb-2">Live Scam Threat Shield</h4>
+            <p class="text-muted small mb-4">Protecting users against UPI fraud, fake jobs, lottery claims, OTP phishing, and malicious URLs.</p>
+            
+            <div class="bg-dark bg-opacity-50 p-3 rounded-3 text-start mb-3 border border-secondary border-opacity-25">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="badge bg-danger">🔴 HIGH RISK</span>
+                    <small class="text-muted">Sample Detection</small>
+                </div>
+                <p class="mb-0 text-light small font-monospace">"Congratulations! You won ₹50,000 Tata Lottery. Pay ₹499 fee immediately at http://tata-lottery-claim.xyz"</p>
+            </div>
+
+            <div class="d-flex justify-content-around text-start mt-3 pt-3 border-top border-secondary border-opacity-25">
+                <div>
+                    <h5 class="text-white fw-bold mb-0">Multi-Agent</h5>
+                    <small class="text-muted">AI Reasoning</small>
+                </div>
+                <div>
+                    <h5 class="text-white fw-bold mb-0">100% Free</h5>
+                    <small class="text-muted">Hackathon Ready</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Showcase Section -->
+<div class="my-5 pt-4">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-white mb-2">Comprehensive Threat Protection</h2>
+        <p class="text-secondary">Designed to safeguard everyday users from sophisticated social engineering</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <a href="{{ url_for('threat_screenshot') }}" class="text-decoration-none d-block h-100">
+                <div class="glass-card h-100 awareness-card-link border-glow">
+                    <div class="stat-icon text-primary mb-3"><i class="fa-solid fa-camera"></i></div>
+                    <h5 class="text-white fw-bold mb-2">📸 Screenshot Analysis</h5>
+                    <p class="text-secondary small mb-3">Upload screenshots of WhatsApp chats, SMS, or emails. OCR automatically extracts readable text for instant analysis.</p>
+                    <span class="text-primary small fw-semibold">Open Feature <i class="fa-solid fa-arrow-right ms-1"></i></span>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ url_for('threat_discussion') }}" class="text-decoration-none d-block h-100">
+                <div class="glass-card h-100 awareness-card-link">
+                    <div class="stat-icon text-info mb-3"><i class="fa-solid fa-comments"></i></div>
+                    <h5 class="text-white fw-bold mb-2">🤖 AI Discussions</h5>
+                    <p class="text-secondary small mb-3">Interactive safety chat to ask questions about OTP demands, suspicious calls, electricity threats, or digital fraud.</p>
+                    <span class="text-info small fw-semibold">Start Discussion <i class="fa-solid fa-arrow-right ms-1"></i></span>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ url_for('threat_link_safety') }}" class="text-decoration-none d-block h-100">
+                <div class="glass-card h-100 awareness-card-link">
+                    <div class="stat-icon text-warning mb-3"><i class="fa-solid fa-link"></i></div>
+                    <h5 class="text-white fw-bold mb-2">🔗 Link Safety Analysis</h5>
+                    <p class="text-secondary small mb-3">Inspect raw IP hosts, URL shorteners, look-alike domain keywords, unencrypted HTTP, and high-risk TLDs.</p>
+                    <span class="text-warning small fw-semibold">Analyze Link <i class="fa-solid fa-arrow-right ms-1"></i></span>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ url_for('threat_identity') }}" class="text-decoration-none d-block h-100">
+                <div class="glass-card h-100 awareness-card-link">
+                    <div class="stat-icon text-success mb-3"><i class="fa-solid fa-id-card-clip"></i></div>
+                    <h5 class="text-white fw-bold mb-2">💡 Personal Identity Suggestions</h5>
+                    <p class="text-secondary small mb-3">Practical guidelines for protecting OTPs, passwords, bank details, UPI PIN, Aadhaar/PAN, and private identity data.</p>
+                    <span class="text-success small fw-semibold">View Suggestions <i class="fa-solid fa-arrow-right ms-1"></i></span>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ url_for('threat_incidents') }}" class="text-decoration-none d-block h-100">
+                <div class="glass-card h-100 awareness-card-link">
+                    <div class="stat-icon text-danger mb-3"><i class="fa-solid fa-file-shield"></i></div>
+                    <h5 class="text-white fw-bold mb-2">📝 Incident Reports</h5>
+                    <p class="text-secondary small mb-3">Document suspected scam incidents, generate structured PDF reports, and obtain legal reporting guidance for 1930.</p>
+                    <span class="text-danger small fw-semibold">Open Reports <i class="fa-solid fa-arrow-right ms-1"></i></span>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ url_for('threat_multitenant') }}" class="text-decoration-none d-block h-100">
+                <div class="glass-card h-100 awareness-card-link">
+                    <div class="stat-icon text-purple mb-3" style="color:#a855f7;"><i class="fa-solid fa-users-gear"></i></div>
+                    <h5 class="text-white fw-bold mb-2">🏢 Multi-Tenant Support</h5>
+                    <p class="text-secondary small mb-3">Multi-user enterprise capability featuring row-level data isolation, encrypted user vaults, and zero cross-tenant leakage.</p>
+                    <span class="small fw-semibold" style="color:#c084fc;">Explore Architecture <i class="fa-solid fa-arrow-right ms-1"></i></span>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
